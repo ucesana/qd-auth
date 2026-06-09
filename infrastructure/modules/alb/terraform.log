@@ -1,0 +1,9 @@
+2026-06-09T17:38:58.183+1000 [INFO]  Terraform version: 1.15.5
+2026-06-09T17:38:58.183+1000 [INFO]  Go runtime version: go1.25.10
+2026-06-09T17:38:58.183+1000 [INFO]  CLI args: []string{"terraform", "apply"}
+2026-06-09T17:38:58.184+1000 [INFO]  CLI command args: []string{"apply"}
+2026-06-09T17:38:58.187+1000 [INFO]  backend/local: starting Apply operation
+2026-06-09T17:39:06.585+1000 [WARN]  backend/local: Failed to request user input for variable "ecs_security_group_id": interrupted
+2026-06-09T17:39:06.585+1000 [WARN]  backend/local: Failed to request user input for variable "name": interrupted
+2026-06-09T17:39:06.585+1000 [WARN]  backend/local: Failed to request user input for variable "public_subnet_ids": interrupted
+2026-06-09T17:39:06.585+1000 [WARN]  backend/local: Failed to request user input for variable "vpc_id": interrupted

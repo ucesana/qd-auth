@@ -39,6 +39,8 @@ public class SecurityConfig {
                     .permitAll()
                     .requestMatchers("/api/auth/refresh")
                     .permitAll()
+                    .requestMatchers("/actuator/health")
+                    .permitAll()
                     .anyRequest()
                     .authenticated())
         .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

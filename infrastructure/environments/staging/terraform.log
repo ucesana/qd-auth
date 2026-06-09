@@ -1,0 +1,521 @@
+2026-06-09T17:36:42.120+1000 [INFO]  Terraform version: 1.15.5
+2026-06-09T17:36:42.120+1000 [INFO]  Go runtime version: go1.25.10
+2026-06-09T17:36:42.120+1000 [INFO]  CLI args: []string{"terraform", "apply"}
+2026-06-09T17:36:42.120+1000 [INFO]  CLI command args: []string{"apply"}
+2026-06-09T17:36:42.122+1000 [INFO]  backend-s3.aws-base: Retrieved credentials: tf_backend.operation=Configure tf_backend.req_id=7fdcc04a-3256-c03e-42bb-1e923b0a75b8 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate tf_aws.credentials_source="SharedConfigCredentials: /Users/madmartigan/.aws/credentials"
+2026-06-09T17:36:42.221+1000 [INFO]  backend-s3.aws-base: Retrieved caller identity from STS: tf_backend.operation=Configure tf_backend.req_id=7fdcc04a-3256-c03e-42bb-1e923b0a75b8 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:36:42.241+1000 [INFO]  backend-s3.aws-base: Retrieved caller identity from STS: tf_backend.operation=Configure tf_backend.req_id=7fdcc04a-3256-c03e-42bb-1e923b0a75b8 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:36:42.505+1000 [INFO]  backend/local: starting Apply operation
+2026-06-09T17:36:42.584+1000 [INFO]  backend-s3: Attempting to lock remote state (S3 Native only)...: tf_backend.lock.id=2b9d554a-0ff9-bbe6-eca4-1a53cb771ab7 tf_backend.lock.info="" tf_backend.lock.operation=OperationTypeApply tf_backend.lock.path=qd-terraform-state-580241343441/staging/terraform.tfstate tf_backend.lock.version=1.15.5 tf_backend.lock.who=madmartigan@Vault.local tf_backend.operation=Lock tf_backend.req_id=b4d3ae97-4396-80c0-5890-39cf07f07a66 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:36:42.625+1000 [INFO]  backend-s3: Locked remote state (S3 Native only): tf_backend.lock.id=2b9d554a-0ff9-bbe6-eca4-1a53cb771ab7 tf_backend.lock.info="" tf_backend.lock.operation=OperationTypeApply tf_backend.lock.path=qd-terraform-state-580241343441/staging/terraform.tfstate tf_backend.lock.version=1.15.5 tf_backend.lock.who=madmartigan@Vault.local tf_backend.operation=Lock tf_backend.req_id=b4d3ae97-4396-80c0-5890-39cf07f07a66 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:36:42.625+1000 [INFO]  backend-s3: Downloading remote state: tf_backend.operation=Get tf_backend.req_id=91b7a712-3254-bb83-7816-fbbc275db681 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:36:42.715+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:36:42.715+1000 [ERROR] vertex "module.alb" error: Module not installed
+2026-06-09T17:36:42.715+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:36:42.717+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:36:42.719+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:36:42.719+1000 [ERROR] vertex "module.ecs" error: Module not installed
+2026-06-09T17:36:42.719+1000 [INFO]  backend-s3: Attempting to unlock remote state (S3 Native only)...: tf_backend.lock.id=2b9d554a-0ff9-bbe6-eca4-1a53cb771ab7 tf_backend.operation=Unlock tf_backend.req_id=a6075c5c-81d6-ac53-02f8-360a9e080df5 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:36:42.793+1000 [INFO]  backend-s3: Unlocked remote state (S3 Native only): tf_backend.lock.id=2b9d554a-0ff9-bbe6-eca4-1a53cb771ab7 tf_backend.operation=Unlock tf_backend.req_id=a6075c5c-81d6-ac53-02f8-360a9e080df5 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:41:24.793+1000 [INFO]  Terraform version: 1.15.5
+2026-06-09T17:41:24.793+1000 [INFO]  Go runtime version: go1.25.10
+2026-06-09T17:41:24.793+1000 [INFO]  CLI args: []string{"terraform", "apply"}
+2026-06-09T17:41:24.793+1000 [INFO]  CLI command args: []string{"apply"}
+2026-06-09T17:41:24.795+1000 [INFO]  backend-s3.aws-base: Retrieved credentials: tf_backend.operation=Configure tf_backend.req_id=f8e64799-27e0-361c-050f-7788bfca727c tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate tf_aws.credentials_source="SharedConfigCredentials: /Users/madmartigan/.aws/credentials"
+2026-06-09T17:41:24.891+1000 [INFO]  backend-s3.aws-base: Retrieved caller identity from STS: tf_backend.operation=Configure tf_backend.req_id=f8e64799-27e0-361c-050f-7788bfca727c tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:41:24.912+1000 [INFO]  backend-s3.aws-base: Retrieved caller identity from STS: tf_backend.operation=Configure tf_backend.req_id=f8e64799-27e0-361c-050f-7788bfca727c tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:41:25.175+1000 [INFO]  backend/local: starting Apply operation
+2026-06-09T17:41:25.274+1000 [INFO]  backend-s3: Attempting to lock remote state (S3 Native only)...: tf_backend.lock.id=f3af20ee-1975-e73e-ffa5-97cddd4753fe tf_backend.lock.info="" tf_backend.lock.operation=OperationTypeApply tf_backend.lock.path=qd-terraform-state-580241343441/staging/terraform.tfstate tf_backend.lock.version=1.15.5 tf_backend.lock.who=madmartigan@Vault.local tf_backend.operation=Lock tf_backend.req_id=bf94360a-43ad-7094-7490-b0a54a0d404d tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:41:25.312+1000 [INFO]  backend-s3: Locked remote state (S3 Native only): tf_backend.lock.id=f3af20ee-1975-e73e-ffa5-97cddd4753fe tf_backend.lock.info="" tf_backend.lock.operation=OperationTypeApply tf_backend.lock.path=qd-terraform-state-580241343441/staging/terraform.tfstate tf_backend.lock.version=1.15.5 tf_backend.lock.who=madmartigan@Vault.local tf_backend.operation=Lock tf_backend.req_id=bf94360a-43ad-7094-7490-b0a54a0d404d tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:41:25.312+1000 [INFO]  backend-s3: Downloading remote state: tf_backend.operation=Get tf_backend.req_id=d8ae595f-867a-18f0-6f93-bd4267479658 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:41:25.400+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:41:25.402+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:41:25.402+1000 [ERROR] vertex "module.alb" error: Module not installed
+2026-06-09T17:41:25.402+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:41:25.404+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:41:25.404+1000 [ERROR] vertex "module.ecs" error: Module not installed
+2026-06-09T17:41:25.404+1000 [INFO]  backend-s3: Attempting to unlock remote state (S3 Native only)...: tf_backend.lock.id=f3af20ee-1975-e73e-ffa5-97cddd4753fe tf_backend.operation=Unlock tf_backend.req_id=07e8e5a5-7f0d-d3ab-8a6f-deed181fc839 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:41:25.470+1000 [INFO]  backend-s3: Unlocked remote state (S3 Native only): tf_backend.lock.id=f3af20ee-1975-e73e-ffa5-97cddd4753fe tf_backend.operation=Unlock tf_backend.req_id=07e8e5a5-7f0d-d3ab-8a6f-deed181fc839 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:41:37.226+1000 [INFO]  Terraform version: 1.15.5
+2026-06-09T17:41:37.226+1000 [INFO]  Go runtime version: go1.25.10
+2026-06-09T17:41:37.226+1000 [INFO]  CLI args: []string{"terraform", "init"}
+2026-06-09T17:41:37.226+1000 [INFO]  CLI command args: []string{"init"}
+2026-06-09T17:41:37.229+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:41:37.229+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:41:37.230+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:41:37.231+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:41:37.232+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:41:37.232+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:41:37.232+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:41:37.233+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:41:37.645+1000 [INFO]  backend-s3.aws-base: Retrieved credentials: tf_backend.operation=Configure tf_backend.req_id=d2507b2c-4d2c-9780-15eb-0318e4489c64 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate tf_aws.credentials_source="SharedConfigCredentials: /Users/madmartigan/.aws/credentials"
+2026-06-09T17:41:37.716+1000 [INFO]  backend-s3.aws-base: Retrieved caller identity from STS: tf_backend.operation=Configure tf_backend.req_id=d2507b2c-4d2c-9780-15eb-0318e4489c64 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:41:37.733+1000 [INFO]  backend-s3.aws-base: Retrieved caller identity from STS: tf_backend.operation=Configure tf_backend.req_id=d2507b2c-4d2c-9780-15eb-0318e4489c64 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:41:38.085+1000 [INFO]  backend-s3: Downloading remote state: tf_backend.operation=Get tf_backend.req_id=c8cef724-68f4-07fb-e222-b7f709fcfb13 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:41:47.877+1000 [INFO]  Terraform version: 1.15.5
+2026-06-09T17:41:47.877+1000 [INFO]  Go runtime version: go1.25.10
+2026-06-09T17:41:47.877+1000 [INFO]  CLI args: []string{"terraform", "apply"}
+2026-06-09T17:41:47.877+1000 [INFO]  CLI command args: []string{"apply"}
+2026-06-09T17:41:47.879+1000 [INFO]  backend-s3.aws-base: Retrieved credentials: tf_backend.operation=Configure tf_backend.req_id=f268cf05-2164-66b2-db39-932714970e6c tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate tf_aws.credentials_source="SharedConfigCredentials: /Users/madmartigan/.aws/credentials"
+2026-06-09T17:41:47.960+1000 [INFO]  backend-s3.aws-base: Retrieved caller identity from STS: tf_backend.operation=Configure tf_backend.req_id=f268cf05-2164-66b2-db39-932714970e6c tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:41:47.982+1000 [INFO]  backend-s3.aws-base: Retrieved caller identity from STS: tf_backend.operation=Configure tf_backend.req_id=f268cf05-2164-66b2-db39-932714970e6c tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:41:48.240+1000 [INFO]  backend/local: starting Apply operation
+2026-06-09T17:41:48.320+1000 [INFO]  backend-s3: Attempting to lock remote state (S3 Native only)...: tf_backend.lock.id=9ba97dd9-9486-2734-b634-8d760f9d3e7c tf_backend.lock.info="" tf_backend.lock.operation=OperationTypeApply tf_backend.lock.path=qd-terraform-state-580241343441/staging/terraform.tfstate tf_backend.lock.version=1.15.5 tf_backend.lock.who=madmartigan@Vault.local tf_backend.operation=Lock tf_backend.req_id=18ea53aa-6232-3a5a-8814-de50b016e4f9 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:41:48.356+1000 [INFO]  backend-s3: Locked remote state (S3 Native only): tf_backend.lock.id=9ba97dd9-9486-2734-b634-8d760f9d3e7c tf_backend.lock.info="" tf_backend.lock.operation=OperationTypeApply tf_backend.lock.path=qd-terraform-state-580241343441/staging/terraform.tfstate tf_backend.lock.version=1.15.5 tf_backend.lock.who=madmartigan@Vault.local tf_backend.operation=Lock tf_backend.req_id=18ea53aa-6232-3a5a-8814-de50b016e4f9 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:41:48.356+1000 [INFO]  backend-s3: Downloading remote state: tf_backend.operation=Get tf_backend.req_id=0e17b3ef-68d3-af06-3710-2e7d684a50b5 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:41:48.445+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:41:48.446+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:41:48.448+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:41:48.450+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:41:48.452+1000 [INFO]  provider: configuring client automatic mTLS
+2026-06-09T17:41:48.616+1000 [INFO]  provider.terraform-provider-aws_v5.100.0_x5: configuring server automatic mTLS: timestamp="2026-06-09T17:41:48.616+1000"
+2026-06-09T17:41:49.002+1000 [INFO]  provider: plugin process exited: plugin=.terraform/providers/registry.terraform.io/hashicorp/aws/5.100.0/darwin_arm64/terraform-provider-aws_v5.100.0_x5 id=38565
+2026-06-09T17:41:49.006+1000 [INFO]  provider: configuring client automatic mTLS
+2026-06-09T17:41:49.091+1000 [INFO]  provider.terraform-provider-aws_v5.100.0_x5: configuring server automatic mTLS: timestamp="2026-06-09T17:41:49.091+1000"
+2026-06-09T17:41:49.137+1000 [ERROR] vertex "aws_acm_certificate.this" error: Reference to undeclared input variable
+2026-06-09T17:41:49.144+1000 [ERROR] vertex "aws_route53_record.app" error: Reference to undeclared input variable
+2026-06-09T17:41:49.144+1000 [ERROR] vertex "aws_route53_record.app" error: Reference to undeclared input variable
+2026-06-09T17:41:49.146+1000 [INFO]  backend-s3: Attempting to unlock remote state (S3 Native only)...: tf_backend.lock.id=9ba97dd9-9486-2734-b634-8d760f9d3e7c tf_backend.operation=Unlock tf_backend.req_id=c63e0ccc-6e4e-8489-915c-952ff7b5aad5 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:41:49.214+1000 [INFO]  backend-s3: Unlocked remote state (S3 Native only): tf_backend.lock.id=9ba97dd9-9486-2734-b634-8d760f9d3e7c tf_backend.operation=Unlock tf_backend.req_id=c63e0ccc-6e4e-8489-915c-952ff7b5aad5 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:41:49.219+1000 [INFO]  provider: plugin process exited: plugin=.terraform/providers/registry.terraform.io/hashicorp/aws/5.100.0/darwin_arm64/terraform-provider-aws_v5.100.0_x5 id=38566
+2026-06-09T17:42:09.321+1000 [INFO]  Terraform version: 1.15.5
+2026-06-09T17:42:09.321+1000 [INFO]  Go runtime version: go1.25.10
+2026-06-09T17:42:09.321+1000 [INFO]  CLI args: []string{"terraform", "-chdir=.", "validate", "-json"}
+2026-06-09T17:42:09.321+1000 [INFO]  CLI command args: []string{"validate", "-json"}
+2026-06-09T17:42:09.322+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:42:09.323+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:42:09.323+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:42:09.324+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:42:09.579+1000 [INFO]  provider: configuring client automatic mTLS
+2026-06-09T17:42:09.668+1000 [INFO]  provider.terraform-provider-aws_v5.100.0_x5: configuring server automatic mTLS: timestamp="2026-06-09T17:42:09.668+1000"
+2026-06-09T17:42:10.054+1000 [INFO]  provider: plugin process exited: plugin=.terraform/providers/registry.terraform.io/hashicorp/aws/5.100.0/darwin_arm64/terraform-provider-aws_v5.100.0_x5 id=38780
+2026-06-09T17:42:10.058+1000 [INFO]  provider: configuring client automatic mTLS
+2026-06-09T17:42:10.148+1000 [INFO]  provider.terraform-provider-aws_v5.100.0_x5: configuring server automatic mTLS: timestamp="2026-06-09T17:42:10.148+1000"
+2026-06-09T17:42:10.195+1000 [ERROR] vertex "aws_acm_certificate.this" error: Reference to undeclared input variable
+2026-06-09T17:42:10.207+1000 [ERROR] vertex "aws_route53_record.app" error: Reference to undeclared input variable
+2026-06-09T17:42:10.207+1000 [ERROR] vertex "aws_route53_record.app" error: Reference to undeclared input variable
+2026-06-09T17:42:10.213+1000 [INFO]  provider: plugin process exited: plugin=.terraform/providers/registry.terraform.io/hashicorp/aws/5.100.0/darwin_arm64/terraform-provider-aws_v5.100.0_x5 id=38782
+2026-06-09T17:42:20.426+1000 [INFO]  Terraform version: 1.15.5
+2026-06-09T17:42:20.426+1000 [INFO]  Go runtime version: go1.25.10
+2026-06-09T17:42:20.426+1000 [INFO]  CLI args: []string{"/opt/homebrew/bin/terraform", "fmt", "-no-color", "-"}
+2026-06-09T17:42:20.426+1000 [INFO]  CLI command args: []string{"fmt", "-no-color", "-"}
+2026-06-09T17:42:22.752+1000 [INFO]  Terraform version: 1.15.5
+2026-06-09T17:42:22.752+1000 [INFO]  Go runtime version: go1.25.10
+2026-06-09T17:42:22.752+1000 [INFO]  CLI args: []string{"terraform", "apply"}
+2026-06-09T17:42:22.752+1000 [INFO]  CLI command args: []string{"apply"}
+2026-06-09T17:42:22.754+1000 [INFO]  backend-s3.aws-base: Retrieved credentials: tf_backend.operation=Configure tf_backend.req_id=af0f5344-e66c-fbeb-eb29-6e64a2f10f97 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate tf_aws.credentials_source="SharedConfigCredentials: /Users/madmartigan/.aws/credentials"
+2026-06-09T17:42:22.835+1000 [INFO]  backend-s3.aws-base: Retrieved caller identity from STS: tf_backend.operation=Configure tf_backend.req_id=af0f5344-e66c-fbeb-eb29-6e64a2f10f97 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:42:22.855+1000 [INFO]  backend-s3.aws-base: Retrieved caller identity from STS: tf_backend.operation=Configure tf_backend.req_id=af0f5344-e66c-fbeb-eb29-6e64a2f10f97 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:42:23.116+1000 [INFO]  backend/local: starting Apply operation
+2026-06-09T17:42:23.179+1000 [INFO]  backend-s3: Attempting to lock remote state (S3 Native only)...: tf_backend.lock.id=0549d5fb-eceb-4900-3d7a-aeec2a6768a1 tf_backend.lock.info="" tf_backend.lock.operation=OperationTypeApply tf_backend.lock.path=qd-terraform-state-580241343441/staging/terraform.tfstate tf_backend.lock.version=1.15.5 tf_backend.lock.who=madmartigan@Vault.local tf_backend.operation=Lock tf_backend.req_id=d256b49e-eb0e-6255-7611-00f0cca53a7e tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:42:23.211+1000 [INFO]  backend-s3: Locked remote state (S3 Native only): tf_backend.lock.id=0549d5fb-eceb-4900-3d7a-aeec2a6768a1 tf_backend.lock.info="" tf_backend.lock.operation=OperationTypeApply tf_backend.lock.path=qd-terraform-state-580241343441/staging/terraform.tfstate tf_backend.lock.version=1.15.5 tf_backend.lock.who=madmartigan@Vault.local tf_backend.operation=Lock tf_backend.req_id=d256b49e-eb0e-6255-7611-00f0cca53a7e tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:42:23.211+1000 [INFO]  backend-s3: Downloading remote state: tf_backend.operation=Get tf_backend.req_id=a9319202-5cf7-2cfe-0704-fb4f941aeec6 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:42:23.291+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:42:23.293+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:42:23.294+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:42:23.296+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:42:23.297+1000 [INFO]  provider: configuring client automatic mTLS
+2026-06-09T17:42:23.405+1000 [INFO]  provider.terraform-provider-aws_v5.100.0_x5: configuring server automatic mTLS: timestamp="2026-06-09T17:42:23.404+1000"
+2026-06-09T17:42:23.772+1000 [INFO]  provider: plugin process exited: plugin=.terraform/providers/registry.terraform.io/hashicorp/aws/5.100.0/darwin_arm64/terraform-provider-aws_v5.100.0_x5 id=38797
+2026-06-09T17:42:23.774+1000 [INFO]  provider: configuring client automatic mTLS
+2026-06-09T17:42:23.859+1000 [INFO]  provider.terraform-provider-aws_v5.100.0_x5: configuring server automatic mTLS: timestamp="2026-06-09T17:42:23.859+1000"
+2026-06-09T17:42:23.904+1000 [ERROR] vertex "aws_acm_certificate.this" error: Reference to undeclared input variable
+2026-06-09T17:42:23.914+1000 [INFO]  backend-s3: Attempting to unlock remote state (S3 Native only)...: tf_backend.lock.id=0549d5fb-eceb-4900-3d7a-aeec2a6768a1 tf_backend.operation=Unlock tf_backend.req_id=5a72b483-afca-3a04-1553-ac9d1e7e0b08 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:42:23.989+1000 [INFO]  backend-s3: Unlocked remote state (S3 Native only): tf_backend.lock.id=0549d5fb-eceb-4900-3d7a-aeec2a6768a1 tf_backend.operation=Unlock tf_backend.req_id=5a72b483-afca-3a04-1553-ac9d1e7e0b08 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:42:23.993+1000 [INFO]  provider: plugin process exited: plugin=.terraform/providers/registry.terraform.io/hashicorp/aws/5.100.0/darwin_arm64/terraform-provider-aws_v5.100.0_x5 id=38798
+2026-06-09T17:42:33.098+1000 [INFO]  Terraform version: 1.15.5
+2026-06-09T17:42:33.098+1000 [INFO]  Go runtime version: go1.25.10
+2026-06-09T17:42:33.098+1000 [INFO]  CLI args: []string{"terraform", "-chdir=.", "validate", "-json"}
+2026-06-09T17:42:33.098+1000 [INFO]  CLI command args: []string{"validate", "-json"}
+2026-06-09T17:42:33.099+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:42:33.100+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:42:33.100+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:42:33.101+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:42:33.356+1000 [INFO]  provider: configuring client automatic mTLS
+2026-06-09T17:42:33.444+1000 [INFO]  provider.terraform-provider-aws_v5.100.0_x5: configuring server automatic mTLS: timestamp="2026-06-09T17:42:33.444+1000"
+2026-06-09T17:42:33.834+1000 [INFO]  provider: plugin process exited: plugin=.terraform/providers/registry.terraform.io/hashicorp/aws/5.100.0/darwin_arm64/terraform-provider-aws_v5.100.0_x5 id=39007
+2026-06-09T17:42:33.837+1000 [INFO]  provider: configuring client automatic mTLS
+2026-06-09T17:42:33.933+1000 [INFO]  provider.terraform-provider-aws_v5.100.0_x5: configuring server automatic mTLS: timestamp="2026-06-09T17:42:33.933+1000"
+2026-06-09T17:42:33.984+1000 [ERROR] vertex "aws_acm_certificate.this" error: Reference to undeclared input variable
+2026-06-09T17:42:33.997+1000 [INFO]  provider: plugin process exited: plugin=.terraform/providers/registry.terraform.io/hashicorp/aws/5.100.0/darwin_arm64/terraform-provider-aws_v5.100.0_x5 id=39009
+2026-06-09T17:43:27.096+1000 [INFO]  Terraform version: 1.15.5
+2026-06-09T17:43:27.096+1000 [INFO]  Go runtime version: go1.25.10
+2026-06-09T17:43:27.096+1000 [INFO]  CLI args: []string{"terraform", "-chdir=.", "validate", "-json"}
+2026-06-09T17:43:27.096+1000 [INFO]  CLI command args: []string{"validate", "-json"}
+2026-06-09T17:43:27.097+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:43:27.098+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:43:27.098+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:43:27.099+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:43:27.357+1000 [INFO]  provider: configuring client automatic mTLS
+2026-06-09T17:43:27.447+1000 [INFO]  provider.terraform-provider-aws_v5.100.0_x5: configuring server automatic mTLS: timestamp="2026-06-09T17:43:27.447+1000"
+2026-06-09T17:43:27.838+1000 [INFO]  provider: plugin process exited: plugin=.terraform/providers/registry.terraform.io/hashicorp/aws/5.100.0/darwin_arm64/terraform-provider-aws_v5.100.0_x5 id=39221
+2026-06-09T17:43:27.841+1000 [INFO]  provider: configuring client automatic mTLS
+2026-06-09T17:43:27.928+1000 [INFO]  provider.terraform-provider-aws_v5.100.0_x5: configuring server automatic mTLS: timestamp="2026-06-09T17:43:27.928+1000"
+2026-06-09T17:43:27.976+1000 [ERROR] vertex "aws_acm_certificate.this" error: Reference to undeclared input variable
+2026-06-09T17:43:27.989+1000 [INFO]  provider: plugin process exited: plugin=.terraform/providers/registry.terraform.io/hashicorp/aws/5.100.0/darwin_arm64/terraform-provider-aws_v5.100.0_x5 id=39223
+2026-06-09T17:44:09.384+1000 [INFO]  Terraform version: 1.15.5
+2026-06-09T17:44:09.384+1000 [INFO]  Go runtime version: go1.25.10
+2026-06-09T17:44:09.384+1000 [INFO]  CLI args: []string{"/opt/homebrew/bin/terraform", "fmt", "-no-color", "-"}
+2026-06-09T17:44:09.384+1000 [INFO]  CLI command args: []string{"fmt", "-no-color", "-"}
+2026-06-09T17:44:11.339+1000 [INFO]  Terraform version: 1.15.5
+2026-06-09T17:44:11.339+1000 [INFO]  Go runtime version: go1.25.10
+2026-06-09T17:44:11.339+1000 [INFO]  CLI args: []string{"terraform", "apply"}
+2026-06-09T17:44:11.339+1000 [INFO]  CLI command args: []string{"apply"}
+2026-06-09T17:44:11.341+1000 [INFO]  backend-s3.aws-base: Retrieved credentials: tf_backend.operation=Configure tf_backend.req_id=39da06e8-4865-5980-3f79-7d86e2365ead tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate tf_aws.credentials_source="SharedConfigCredentials: /Users/madmartigan/.aws/credentials"
+2026-06-09T17:44:11.446+1000 [INFO]  backend-s3.aws-base: Retrieved caller identity from STS: tf_backend.operation=Configure tf_backend.req_id=39da06e8-4865-5980-3f79-7d86e2365ead tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:44:11.465+1000 [INFO]  backend-s3.aws-base: Retrieved caller identity from STS: tf_backend.operation=Configure tf_backend.req_id=39da06e8-4865-5980-3f79-7d86e2365ead tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:44:11.720+1000 [INFO]  backend/local: starting Apply operation
+2026-06-09T17:44:11.802+1000 [INFO]  backend-s3: Attempting to lock remote state (S3 Native only)...: tf_backend.lock.id=1661a70c-ac3f-0e25-e96b-11548ce1f405 tf_backend.lock.info="" tf_backend.lock.operation=OperationTypeApply tf_backend.lock.path=qd-terraform-state-580241343441/staging/terraform.tfstate tf_backend.lock.version=1.15.5 tf_backend.lock.who=madmartigan@Vault.local tf_backend.operation=Lock tf_backend.req_id=10168e16-3a6b-dd98-7be8-14f7aaf62014 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:44:11.837+1000 [INFO]  backend-s3: Locked remote state (S3 Native only): tf_backend.lock.id=1661a70c-ac3f-0e25-e96b-11548ce1f405 tf_backend.lock.info="" tf_backend.lock.operation=OperationTypeApply tf_backend.lock.path=qd-terraform-state-580241343441/staging/terraform.tfstate tf_backend.lock.version=1.15.5 tf_backend.lock.who=madmartigan@Vault.local tf_backend.operation=Lock tf_backend.req_id=10168e16-3a6b-dd98-7be8-14f7aaf62014 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:44:11.837+1000 [INFO]  backend-s3: Downloading remote state: tf_backend.operation=Get tf_backend.req_id=90ac6e3e-adcb-88da-5828-88bb71c80641 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:44:11.926+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:44:11.928+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:44:11.929+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:44:11.930+1000 [WARN]  Error loading schema for registry.terraform.io/hashicorp/aws to determine its functions: failed to instantiate provider "registry.terraform.io/hashicorp/aws" to obtain schema: unavailable provider "registry.terraform.io/hashicorp/aws"
+2026-06-09T17:44:11.934+1000 [INFO]  provider: configuring client automatic mTLS
+2026-06-09T17:44:12.044+1000 [INFO]  provider.terraform-provider-aws_v5.100.0_x5: configuring server automatic mTLS: timestamp="2026-06-09T17:44:12.044+1000"
+2026-06-09T17:44:12.415+1000 [INFO]  provider: plugin process exited: plugin=.terraform/providers/registry.terraform.io/hashicorp/aws/5.100.0/darwin_arm64/terraform-provider-aws_v5.100.0_x5 id=39238
+2026-06-09T17:44:12.418+1000 [INFO]  provider: configuring client automatic mTLS
+2026-06-09T17:44:12.503+1000 [INFO]  provider.terraform-provider-aws_v5.100.0_x5: configuring server automatic mTLS: timestamp="2026-06-09T17:44:12.503+1000"
+2026-06-09T17:44:12.562+1000 [INFO]  provider: plugin process exited: plugin=.terraform/providers/registry.terraform.io/hashicorp/aws/5.100.0/darwin_arm64/terraform-provider-aws_v5.100.0_x5 id=39239
+2026-06-09T17:44:12.563+1000 [INFO]  backend/local: apply calling Plan
+2026-06-09T17:44:12.568+1000 [INFO]  provider: configuring client automatic mTLS
+2026-06-09T17:44:12.653+1000 [INFO]  provider.terraform-provider-aws_v5.100.0_x5: configuring server automatic mTLS: timestamp="2026-06-09T17:44:12.653+1000"
+2026-06-09T17:44:12.662+1000 [INFO]  backend-s3.aws-base: Retrieved credentials: tf_backend.operation=Configure tf_backend.req_id=5cab81da-fb6f-279a-0ca7-ad3f37486a15 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=shared/terraform.tfstate tf_aws.credentials_source="SharedConfigCredentials: /Users/madmartigan/.aws/credentials"
+2026-06-09T17:44:12.701+1000 [INFO]  provider.terraform-provider-aws_v5.100.0_x5: Retrieved credentials: tf_mux_provider="*schema.GRPCProviderServer" tf_req_id=621a0318-3e5a-152e-8140-fe7b16022068 tf_rpc=ConfigureProvider tf_provider_addr=registry.terraform.io/hashicorp/aws @caller=github.com/hashicorp/aws-sdk-go-base/v2@v2.0.0-beta.65/logging/tf_logger.go:39 @module=aws.aws-base tf_aws.credentials_source="SharedConfigCredentials: /Users/madmartigan/.aws/credentials" timestamp="2026-06-09T17:44:12.701+1000"
+2026-06-09T17:44:12.734+1000 [INFO]  backend-s3.aws-base: Retrieved caller identity from STS: tf_backend.operation=Configure tf_backend.req_id=5cab81da-fb6f-279a-0ca7-ad3f37486a15 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=shared/terraform.tfstate
+2026-06-09T17:44:12.750+1000 [INFO]  backend-s3.aws-base: Retrieved caller identity from STS: tf_backend.operation=Configure tf_backend.req_id=5cab81da-fb6f-279a-0ca7-ad3f37486a15 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=shared/terraform.tfstate
+2026-06-09T17:44:12.778+1000 [INFO]  provider.terraform-provider-aws_v5.100.0_x5: Retrieved caller identity from STS: @module=aws.aws-base tf_mux_provider="*schema.GRPCProviderServer" tf_provider_addr=registry.terraform.io/hashicorp/aws @caller=github.com/hashicorp/aws-sdk-go-base/v2@v2.0.0-beta.65/logging/tf_logger.go:39 tf_req_id=621a0318-3e5a-152e-8140-fe7b16022068 tf_rpc=ConfigureProvider timestamp="2026-06-09T17:44:12.778+1000"
+2026-06-09T17:44:12.787+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for aws_secretsmanager_secret.rsa_public_key, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .force_overwrite_replica_secret: planned value cty.False for a non-computed attribute
+      - .replica: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+2026-06-09T17:44:12.787+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.ecs.aws_iam_role.execution, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .force_detach_policies: planned value cty.False for a non-computed attribute
+      - .max_session_duration: planned value cty.NumberIntVal(3600) for a non-computed attribute
+      - .path: planned value cty.StringVal("/") for a non-computed attribute
+      - .inline_policy: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+2026-06-09T17:44:12.787+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.ecs.aws_iam_role.task, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .force_detach_policies: planned value cty.False for a non-computed attribute
+      - .max_session_duration: planned value cty.NumberIntVal(3600) for a non-computed attribute
+      - .path: planned value cty.StringVal("/") for a non-computed attribute
+      - .inline_policy: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+2026-06-09T17:44:12.787+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for aws_secretsmanager_secret.rsa_private_key, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .force_overwrite_replica_secret: planned value cty.False for a non-computed attribute
+      - .replica: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+2026-06-09T17:44:12.789+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.ecs.aws_cloudwatch_log_group.this, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .skip_destroy: planned value cty.False for a non-computed attribute
+2026-06-09T17:44:12.809+1000 [INFO]  backend-s3: Downloading remote state: tf_backend.operation=Get tf_backend.req_id=efa4b288-35eb-dec8-5862-998734a65665 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=shared/terraform.tfstate
+2026-06-09T17:44:12.935+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.rds.aws_secretsmanager_secret.db_password, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .description: planned value cty.StringVal("") for a non-computed attribute
+      - .force_overwrite_replica_secret: planned value cty.False for a non-computed attribute
+      - .kms_key_id: planned value cty.StringVal("") for a non-computed attribute
+2026-06-09T17:44:12.992+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.rds.aws_secretsmanager_secret_version.db_password, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .secret_binary: sensitive planned value for a non-computed attribute
+2026-06-09T17:44:13.106+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.vpc.aws_eip.nat, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .customer_owned_ipv4_pool: planned value cty.StringVal("") for a non-computed attribute
+2026-06-09T17:44:13.120+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.rds.aws_db_parameter_group.this, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .skip_destroy: planned value cty.False for a non-computed attribute
+      - .description: planned value cty.StringVal("Managed by Terraform") for a non-computed attribute
+2026-06-09T17:44:13.458+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.vpc.aws_vpc.this, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .ipv6_ipam_pool_id: planned value cty.StringVal("") for a non-computed attribute
+      - .instance_tenancy: planned value cty.StringVal("default") for a non-computed attribute
+      - .ipv6_netmask_length: planned value cty.NumberIntVal(0) for a non-computed attribute
+      - .assign_generated_ipv6_cidr_block: planned value cty.False for a non-computed attribute
+2026-06-09T17:44:13.466+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.alb.aws_security_group.alb, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .egress: planned value cty.SetVal([]cty.Value{cty.ObjectVal(map[string]cty.Value{"cidr_blocks":cty.ListVal([]cty.Value{cty.StringVal("0.0.0.0/0")}), "description":cty.StringVal(""), "from_port":cty.NumberIntVal(0), "ipv6_cidr_blocks":cty.ListValEmpty(cty.String), "prefix_list_ids":cty.ListValEmpty(cty.String), "protocol":cty.StringVal("-1"), "security_groups":cty.SetValEmpty(cty.String), "self":cty.False, "to_port":cty.NumberIntVal(0)})}) does not match config value cty.SetVal([]cty.Value{cty.ObjectVal(map[string]cty.Value{"cidr_blocks":cty.ListVal([]cty.Value{cty.StringVal("0.0.0.0/0")}), "description":cty.NullVal(cty.String), "from_port":cty.NumberIntVal(0), "ipv6_cidr_blocks":cty.NullVal(cty.List(cty.String)), "prefix_list_ids":cty.NullVal(cty.List(cty.String)), "protocol":cty.StringVal("-1"), "security_groups":cty.NullVal(cty.Set(cty.String)), "self":cty.NullVal(cty.Bool), "to_port":cty.NumberIntVal(0)})})
+      - .ingress: planned value cty.SetVal([]cty.Value{cty.ObjectVal(map[string]cty.Value{"cidr_blocks":cty.ListVal([]cty.Value{cty.StringVal("0.0.0.0/0")}), "description":cty.StringVal("HTTP"), "from_port":cty.NumberIntVal(80), "ipv6_cidr_blocks":cty.ListValEmpty(cty.String), "prefix_list_ids":cty.ListValEmpty(cty.String), "protocol":cty.StringVal("tcp"), "security_groups":cty.SetValEmpty(cty.String), "self":cty.False, "to_port":cty.NumberIntVal(80)})}) does not match config value cty.SetVal([]cty.Value{cty.ObjectVal(map[string]cty.Value{"cidr_blocks":cty.ListVal([]cty.Value{cty.StringVal("0.0.0.0/0")}), "description":cty.StringVal("HTTP"), "from_port":cty.NumberIntVal(80), "ipv6_cidr_blocks":cty.NullVal(cty.List(cty.String)), "prefix_list_ids":cty.NullVal(cty.List(cty.String)), "protocol":cty.StringVal("tcp"), "security_groups":cty.NullVal(cty.Set(cty.String)), "self":cty.NullVal(cty.Bool), "to_port":cty.NumberIntVal(80)})})
+      - .revoke_rules_on_delete: planned value cty.False for a non-computed attribute
+2026-06-09T17:44:13.466+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.alb.aws_lb_target_group.this, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .lambda_multi_value_headers_enabled: planned value cty.False for a non-computed attribute
+      - .proxy_protocol_v2: planned value cty.False for a non-computed attribute
+      - .slow_start: planned value cty.NumberIntVal(0) for a non-computed attribute
+      - .target_group_health: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+      - .target_health_state: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+      - .stickiness: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+      - .target_failover: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+2026-06-09T17:44:13.563+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.vpc.aws_subnet.private[1], but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .customer_owned_ipv4_pool: planned value cty.StringVal("") for a non-computed attribute
+      - .enable_dns64: planned value cty.False for a non-computed attribute
+      - .outpost_arn: planned value cty.StringVal("") for a non-computed attribute
+      - .assign_ipv6_address_on_creation: planned value cty.False for a non-computed attribute
+      - .ipv6_native: planned value cty.False for a non-computed attribute
+      - .map_customer_owned_ip_on_launch: planned value cty.False for a non-computed attribute
+      - .map_public_ip_on_launch: planned value cty.False for a non-computed attribute
+      - .enable_resource_name_dns_aaaa_record_on_launch: planned value cty.False for a non-computed attribute
+      - .enable_lni_at_device_index: planned value cty.NumberIntVal(0) for a non-computed attribute
+      - .enable_resource_name_dns_a_record_on_launch: planned value cty.False for a non-computed attribute
+      - .ipv6_cidr_block: planned value cty.StringVal("") for a non-computed attribute
+2026-06-09T17:44:13.563+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.vpc.aws_subnet.public[0], but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .enable_dns64: planned value cty.False for a non-computed attribute
+      - .outpost_arn: planned value cty.StringVal("") for a non-computed attribute
+      - .assign_ipv6_address_on_creation: planned value cty.False for a non-computed attribute
+      - .ipv6_native: planned value cty.False for a non-computed attribute
+      - .map_customer_owned_ip_on_launch: planned value cty.False for a non-computed attribute
+      - .enable_resource_name_dns_aaaa_record_on_launch: planned value cty.False for a non-computed attribute
+      - .enable_lni_at_device_index: planned value cty.NumberIntVal(0) for a non-computed attribute
+      - .enable_resource_name_dns_a_record_on_launch: planned value cty.False for a non-computed attribute
+      - .ipv6_cidr_block: planned value cty.StringVal("") for a non-computed attribute
+      - .customer_owned_ipv4_pool: planned value cty.StringVal("") for a non-computed attribute
+2026-06-09T17:44:13.599+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for aws_security_group.ecs, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .revoke_rules_on_delete: planned value cty.False for a non-computed attribute
+2026-06-09T17:44:13.602+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.alb.aws_security_group_rule.ecs_from_alb, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .self: planned value cty.False for a non-computed attribute
+2026-06-09T17:44:13.617+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.vpc.aws_subnet.private[0], but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .enable_lni_at_device_index: planned value cty.NumberIntVal(0) for a non-computed attribute
+      - .enable_resource_name_dns_a_record_on_launch: planned value cty.False for a non-computed attribute
+      - .ipv6_cidr_block: planned value cty.StringVal("") for a non-computed attribute
+      - .customer_owned_ipv4_pool: planned value cty.StringVal("") for a non-computed attribute
+      - .enable_dns64: planned value cty.False for a non-computed attribute
+      - .outpost_arn: planned value cty.StringVal("") for a non-computed attribute
+      - .assign_ipv6_address_on_creation: planned value cty.False for a non-computed attribute
+      - .ipv6_native: planned value cty.False for a non-computed attribute
+      - .map_customer_owned_ip_on_launch: planned value cty.False for a non-computed attribute
+      - .map_public_ip_on_launch: planned value cty.False for a non-computed attribute
+      - .enable_resource_name_dns_aaaa_record_on_launch: planned value cty.False for a non-computed attribute
+2026-06-09T17:44:13.628+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.vpc.aws_subnet.public[1], but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .enable_resource_name_dns_a_record_on_launch: planned value cty.False for a non-computed attribute
+      - .ipv6_cidr_block: planned value cty.StringVal("") for a non-computed attribute
+      - .customer_owned_ipv4_pool: planned value cty.StringVal("") for a non-computed attribute
+      - .enable_dns64: planned value cty.False for a non-computed attribute
+      - .outpost_arn: planned value cty.StringVal("") for a non-computed attribute
+      - .assign_ipv6_address_on_creation: planned value cty.False for a non-computed attribute
+      - .ipv6_native: planned value cty.False for a non-computed attribute
+      - .map_customer_owned_ip_on_launch: planned value cty.False for a non-computed attribute
+      - .enable_resource_name_dns_aaaa_record_on_launch: planned value cty.False for a non-computed attribute
+      - .enable_lni_at_device_index: planned value cty.NumberIntVal(0) for a non-computed attribute
+2026-06-09T17:44:13.632+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.alb.aws_lb.this, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .client_keep_alive: planned value cty.NumberIntVal(3600) for a non-computed attribute
+      - .enable_http2: planned value cty.True for a non-computed attribute
+      - .enable_tls_version_and_cipher_suite_headers: planned value cty.False for a non-computed attribute
+      - .enable_xff_client_port: planned value cty.False for a non-computed attribute
+      - .idle_timeout: planned value cty.NumberIntVal(60) for a non-computed attribute
+      - .enable_zonal_shift: planned value cty.False for a non-computed attribute
+      - .desync_mitigation_mode: planned value cty.StringVal("defensive") for a non-computed attribute
+      - .xff_header_processing_mode: planned value cty.StringVal("append") for a non-computed attribute
+      - .security_groups: planned value cty.UnknownVal(cty.Set(cty.String)) does not match config value cty.SetVal([]cty.Value{cty.UnknownVal(cty.String)})
+      - .enable_waf_fail_open: planned value cty.False for a non-computed attribute
+      - .drop_invalid_header_fields: planned value cty.False for a non-computed attribute
+      - .preserve_host_header: planned value cty.False for a non-computed attribute
+      - .subnet_mapping: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+2026-06-09T17:44:13.637+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.alb.aws_lb_listener.http, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .mutual_authentication: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+2026-06-09T17:44:13.672+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.rds.aws_security_group.rds, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .revoke_rules_on_delete: planned value cty.False for a non-computed attribute
+2026-06-09T17:44:13.675+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.vpc.aws_nat_gateway.this, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .connectivity_type: planned value cty.StringVal("public") for a non-computed attribute
+      - .secondary_allocation_ids: planned value cty.SetValEmpty(cty.String) for a non-computed attribute
+2026-06-09T17:44:13.685+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.vpc.aws_route_table_association.public[1], but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .gateway_id: planned value cty.StringVal("") for a non-computed attribute
+2026-06-09T17:44:13.685+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.vpc.aws_route_table_association.public[0], but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .gateway_id: planned value cty.StringVal("") for a non-computed attribute
+2026-06-09T17:44:13.767+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.rds.aws_db_subnet_group.this, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .description: planned value cty.StringVal("Managed by Terraform") for a non-computed attribute
+2026-06-09T17:44:13.810+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.vpc.aws_route_table_association.private[1], but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .gateway_id: planned value cty.StringVal("") for a non-computed attribute
+2026-06-09T17:44:13.810+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.vpc.aws_route_table_association.private[0], but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .gateway_id: planned value cty.StringVal("") for a non-computed attribute
+2026-06-09T17:44:13.862+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.rds.aws_db_instance.this, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .dedicated_log_volume: planned value cty.False for a non-computed attribute
+      - .enabled_cloudwatch_logs_exports: planned value cty.SetValEmpty(cty.String) for a non-computed attribute
+      - .copy_tags_to_snapshot: planned value cty.False for a non-computed attribute
+      - .domain: planned value cty.StringVal("") for a non-computed attribute
+      - .max_allocated_storage: planned value cty.NumberIntVal(0) for a non-computed attribute
+      - .monitoring_interval: planned value cty.NumberIntVal(0) for a non-computed attribute
+      - .auto_minor_version_upgrade: planned value cty.True for a non-computed attribute
+      - .custom_iam_instance_profile: planned value cty.StringVal("") for a non-computed attribute
+      - .domain_ou: planned value cty.StringVal("") for a non-computed attribute
+      - .iam_database_authentication_enabled: planned value cty.False for a non-computed attribute
+      - .apply_immediately: planned value cty.False for a non-computed attribute
+      - .domain_auth_secret_arn: planned value cty.StringVal("") for a non-computed attribute
+      - .customer_owned_ip_enabled: planned value cty.False for a non-computed attribute
+      - .delete_automated_backups: planned value cty.True for a non-computed attribute
+      - .performance_insights_enabled: planned value cty.False for a non-computed attribute
+      - .replicate_source_db: planned value cty.StringVal("") for a non-computed attribute
+      - .domain_dns_ips: planned value cty.ListValEmpty(cty.String) for a non-computed attribute
+      - .domain_iam_role_name: planned value cty.StringVal("") for a non-computed attribute
+2026-06-09T17:44:13.868+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.ecs.aws_ecs_task_definition.this, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .track_latest: planned value cty.False for a non-computed attribute
+      - .skip_destroy: planned value cty.False for a non-computed attribute
+2026-06-09T17:44:13.874+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.ecs.aws_ecs_service.this, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .wait_for_steady_state: planned value cty.False for a non-computed attribute
+      - .enable_ecs_managed_tags: planned value cty.False for a non-computed attribute
+      - .enable_execute_command: planned value cty.False for a non-computed attribute
+      - .scheduling_strategy: planned value cty.StringVal("REPLICA") for a non-computed attribute
+      - .availability_zone_rebalancing: planned value cty.StringVal("DISABLED") for a non-computed attribute
+2026-06-09T17:44:13.879+1000 [INFO]  provider: plugin process exited: plugin=.terraform/providers/registry.terraform.io/hashicorp/aws/5.100.0/darwin_arm64/terraform-provider-aws_v5.100.0_x5 id=39240
+2026-06-09T17:44:41.245+1000 [INFO]  backend/local: apply calling Apply
+2026-06-09T17:44:41.265+1000 [INFO]  provider: configuring client automatic mTLS
+2026-06-09T17:44:41.367+1000 [INFO]  provider.terraform-provider-aws_v5.100.0_x5: configuring server automatic mTLS: timestamp="2026-06-09T17:44:41.367+1000"
+2026-06-09T17:44:41.411+1000 [INFO]  provider.terraform-provider-aws_v5.100.0_x5: Retrieved credentials: @module=aws.aws-base tf_mux_provider="*schema.GRPCProviderServer" tf_provider_addr=registry.terraform.io/hashicorp/aws tf_rpc=ConfigureProvider tf_aws.credentials_source="SharedConfigCredentials: /Users/madmartigan/.aws/credentials" tf_req_id=7a4910f0-c1e9-9158-0cbb-2e11385ce3da @caller=github.com/hashicorp/aws-sdk-go-base/v2@v2.0.0-beta.65/logging/tf_logger.go:39 timestamp="2026-06-09T17:44:41.411+1000"
+2026-06-09T17:44:41.502+1000 [INFO]  provider.terraform-provider-aws_v5.100.0_x5: Retrieved caller identity from STS: tf_provider_addr=registry.terraform.io/hashicorp/aws tf_mux_provider="*schema.GRPCProviderServer" tf_req_id=7a4910f0-c1e9-9158-0cbb-2e11385ce3da tf_rpc=ConfigureProvider @caller=github.com/hashicorp/aws-sdk-go-base/v2@v2.0.0-beta.65/logging/tf_logger.go:39 @module=aws.aws-base timestamp="2026-06-09T17:44:41.502+1000"
+2026-06-09T17:44:41.512+1000 [INFO]  Starting apply for module.rds.aws_secretsmanager_secret_version.db_password
+2026-06-09T17:44:41.513+1000 [WARN]  provider.terraform-provider-aws_v5.100.0_x5: [WARN] Cannot remove AWSCURRENT staging label, which may leave the secret "arn:aws:secretsmanager:ap-southeast-4:580241343441:secret:qd-auth-staging/db-password-sg4ehV" version "terraform-20260609043522009400000001" active
+2026-06-09T17:44:41.513+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.ecs.aws_cloudwatch_log_group.this, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .skip_destroy: planned value cty.False for a non-computed attribute
+2026-06-09T17:44:41.513+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for aws_secretsmanager_secret.rsa_private_key, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .force_overwrite_replica_secret: planned value cty.False for a non-computed attribute
+      - .replica: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+2026-06-09T17:44:41.513+1000 [INFO]  Starting apply for module.ecs.aws_cloudwatch_log_group.this
+2026-06-09T17:44:41.513+1000 [INFO]  Starting apply for aws_secretsmanager_secret.rsa_private_key
+2026-06-09T17:44:41.513+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.ecs.aws_iam_role.task, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .path: planned value cty.StringVal("/") for a non-computed attribute
+      - .force_detach_policies: planned value cty.False for a non-computed attribute
+      - .max_session_duration: planned value cty.NumberIntVal(3600) for a non-computed attribute
+      - .inline_policy: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+2026-06-09T17:44:41.513+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for aws_secretsmanager_secret.rsa_public_key, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .force_overwrite_replica_secret: planned value cty.False for a non-computed attribute
+      - .replica: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+2026-06-09T17:44:41.513+1000 [INFO]  Starting apply for module.ecs.aws_ecs_cluster.this
+2026-06-09T17:44:41.513+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.ecs.aws_iam_role.execution, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .force_detach_policies: planned value cty.False for a non-computed attribute
+      - .max_session_duration: planned value cty.NumberIntVal(3600) for a non-computed attribute
+      - .path: planned value cty.StringVal("/") for a non-computed attribute
+      - .inline_policy: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+2026-06-09T17:44:41.513+1000 [INFO]  Starting apply for module.ecs.aws_iam_role.task
+2026-06-09T17:44:41.513+1000 [INFO]  Starting apply for aws_secretsmanager_secret.rsa_public_key
+2026-06-09T17:44:41.513+1000 [INFO]  Starting apply for module.ecs.aws_iam_role.execution
+2026-06-09T17:44:41.513+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.alb.aws_security_group.alb, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .egress: planned value cty.SetVal([]cty.Value{cty.ObjectVal(map[string]cty.Value{"cidr_blocks":cty.ListVal([]cty.Value{cty.StringVal("0.0.0.0/0")}), "description":cty.StringVal(""), "from_port":cty.NumberIntVal(0), "ipv6_cidr_blocks":cty.ListValEmpty(cty.String), "prefix_list_ids":cty.ListValEmpty(cty.String), "protocol":cty.StringVal("-1"), "security_groups":cty.SetValEmpty(cty.String), "self":cty.False, "to_port":cty.NumberIntVal(0)})}) does not match config value cty.SetVal([]cty.Value{cty.ObjectVal(map[string]cty.Value{"cidr_blocks":cty.ListVal([]cty.Value{cty.StringVal("0.0.0.0/0")}), "description":cty.NullVal(cty.String), "from_port":cty.NumberIntVal(0), "ipv6_cidr_blocks":cty.NullVal(cty.List(cty.String)), "prefix_list_ids":cty.NullVal(cty.List(cty.String)), "protocol":cty.StringVal("-1"), "security_groups":cty.NullVal(cty.Set(cty.String)), "self":cty.NullVal(cty.Bool), "to_port":cty.NumberIntVal(0)})})
+      - .ingress: planned value cty.SetVal([]cty.Value{cty.ObjectVal(map[string]cty.Value{"cidr_blocks":cty.ListVal([]cty.Value{cty.StringVal("0.0.0.0/0")}), "description":cty.StringVal("HTTP"), "from_port":cty.NumberIntVal(80), "ipv6_cidr_blocks":cty.ListValEmpty(cty.String), "prefix_list_ids":cty.ListValEmpty(cty.String), "protocol":cty.StringVal("tcp"), "security_groups":cty.SetValEmpty(cty.String), "self":cty.False, "to_port":cty.NumberIntVal(80)})}) does not match config value cty.SetVal([]cty.Value{cty.ObjectVal(map[string]cty.Value{"cidr_blocks":cty.ListVal([]cty.Value{cty.StringVal("0.0.0.0/0")}), "description":cty.StringVal("HTTP"), "from_port":cty.NumberIntVal(80), "ipv6_cidr_blocks":cty.NullVal(cty.List(cty.String)), "prefix_list_ids":cty.NullVal(cty.List(cty.String)), "protocol":cty.StringVal("tcp"), "security_groups":cty.NullVal(cty.Set(cty.String)), "self":cty.NullVal(cty.Bool), "to_port":cty.NumberIntVal(80)})})
+      - .revoke_rules_on_delete: planned value cty.False for a non-computed attribute
+2026-06-09T17:44:41.514+1000 [INFO]  Starting apply for module.alb.aws_security_group.alb
+2026-06-09T17:44:41.514+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.alb.aws_lb_target_group.this, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .proxy_protocol_v2: planned value cty.False for a non-computed attribute
+      - .slow_start: planned value cty.NumberIntVal(0) for a non-computed attribute
+      - .lambda_multi_value_headers_enabled: planned value cty.False for a non-computed attribute
+      - .stickiness: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+      - .target_failover: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+      - .target_group_health: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+      - .target_health_state: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+2026-06-09T17:44:41.514+1000 [INFO]  Starting apply for module.alb.aws_lb_target_group.this
+2026-06-09T17:44:41.605+1000 [INFO]  Starting apply for module.rds.aws_secretsmanager_secret_version.db_password
+2026-06-09T17:44:41.705+1000 [WARN]  Provider "provider[\"registry.terraform.io/hashicorp/aws\"]" produced an unexpected new value for aws_secretsmanager_secret.rsa_public_key, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .description: was null, but now cty.StringVal("")
+      - .kms_key_id: was null, but now cty.StringVal("")
+2026-06-09T17:44:41.705+1000 [WARN]  Provider "provider[\"registry.terraform.io/hashicorp/aws\"]" produced an unexpected new value for aws_secretsmanager_secret.rsa_private_key, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .description: was null, but now cty.StringVal("")
+      - .kms_key_id: was null, but now cty.StringVal("")
+2026-06-09T17:44:41.708+1000 [WARN]  Provider "provider[\"registry.terraform.io/hashicorp/aws\"]" produced an unexpected new value for module.rds.aws_secretsmanager_secret_version.db_password, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .secret_binary: inconsistent values for sensitive attribute
+2026-06-09T17:44:41.708+1000 [INFO]  Starting apply for aws_secretsmanager_secret_version.rsa_public_key
+2026-06-09T17:44:41.708+1000 [INFO]  Starting apply for aws_secretsmanager_secret_version.rsa_private_key
+2026-06-09T17:44:41.742+1000 [WARN]  Provider "provider[\"registry.terraform.io/hashicorp/aws\"]" produced an unexpected new value for module.ecs.aws_cloudwatch_log_group.this, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .kms_key_id: was null, but now cty.StringVal("")
+2026-06-09T17:44:41.795+1000 [WARN]  Provider "provider[\"registry.terraform.io/hashicorp/aws\"]" produced an unexpected new value for aws_secretsmanager_secret_version.rsa_private_key, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .secret_binary: inconsistent values for sensitive attribute
+2026-06-09T17:44:41.795+1000 [WARN]  Provider "provider[\"registry.terraform.io/hashicorp/aws\"]" produced an unexpected new value for aws_secretsmanager_secret_version.rsa_public_key, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .secret_binary: inconsistent values for sensitive attribute
+2026-06-09T17:44:43.433+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.alb.aws_security_group_rule.ecs_from_alb, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .self: planned value cty.False for a non-computed attribute
+2026-06-09T17:44:43.433+1000 [INFO]  Starting apply for module.alb.aws_security_group_rule.ecs_from_alb
+2026-06-09T17:44:43.436+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.alb.aws_lb.this, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .enable_http2: planned value cty.True for a non-computed attribute
+      - .enable_tls_version_and_cipher_suite_headers: planned value cty.False for a non-computed attribute
+      - .enable_xff_client_port: planned value cty.False for a non-computed attribute
+      - .idle_timeout: planned value cty.NumberIntVal(60) for a non-computed attribute
+      - .enable_zonal_shift: planned value cty.False for a non-computed attribute
+      - .desync_mitigation_mode: planned value cty.StringVal("defensive") for a non-computed attribute
+      - .xff_header_processing_mode: planned value cty.StringVal("append") for a non-computed attribute
+      - .enable_waf_fail_open: planned value cty.False for a non-computed attribute
+      - .drop_invalid_header_fields: planned value cty.False for a non-computed attribute
+      - .preserve_host_header: planned value cty.False for a non-computed attribute
+      - .client_keep_alive: planned value cty.NumberIntVal(3600) for a non-computed attribute
+      - .subnet_mapping: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+2026-06-09T17:44:43.436+1000 [INFO]  Starting apply for module.alb.aws_lb.this
+2026-06-09T17:44:43.454+1000 [WARN]  Provider "provider[\"registry.terraform.io/hashicorp/aws\"]" produced an unexpected new value for module.ecs.aws_iam_role.execution, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .permissions_boundary: was null, but now cty.StringVal("")
+      - .description: was null, but now cty.StringVal("")
+2026-06-09T17:44:43.457+1000 [INFO]  Starting apply for module.ecs.aws_iam_role_policy_attachment.execution_policy
+2026-06-09T17:44:43.457+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.ecs.aws_iam_role_policy.execution_secrets, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .policy: planned value cty.StringVal("{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"secretsmanager:GetSecretValue\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:secretsmanager:ap-southeast-4:580241343441:secret:qd-auth-staging/db-password-sg4ehV\",\"arn:aws:secretsmanager:ap-southeast-4:580241343441:secret:qd-auth-staging/rsa-private-key-L72oGp\",\"arn:aws:secretsmanager:ap-southeast-4:580241343441:secret:qd-auth-staging/rsa-public-key-o79UAp\"]}]}") does not match config value cty.StringVal("{\"Statement\":[{\"Action\":[\"secretsmanager:GetSecretValue\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:secretsmanager:ap-southeast-4:580241343441:secret:qd-auth-staging/db-password-sg4ehV\",\"arn:aws:secretsmanager:ap-southeast-4:580241343441:secret:qd-auth-staging/rsa-private-key-L72oGp\",\"arn:aws:secretsmanager:ap-southeast-4:580241343441:secret:qd-auth-staging/rsa-public-key-o79UAp\"]}],\"Version\":\"2012-10-17\"}")
+2026-06-09T17:44:43.457+1000 [INFO]  Starting apply for module.ecs.aws_iam_role_policy.execution_secrets
+2026-06-09T17:44:43.466+1000 [WARN]  Provider "provider[\"registry.terraform.io/hashicorp/aws\"]" produced an unexpected new value for module.ecs.aws_iam_role.task, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .permissions_boundary: was null, but now cty.StringVal("")
+      - .description: was null, but now cty.StringVal("")
+2026-06-09T17:44:43.471+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.ecs.aws_ecs_task_definition.this, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .container_definitions: planned value cty.StringVal("[{\"environment\":[{\"name\":\"SPRING_DATASOURCE_URL\",\"value\":\"jdbc:mysql://qd-auth-staging-mysql.cdmgo86cedwr.ap-southeast-4.rds.amazonaws.com:3306/qdauth\"}],\"essential\":true,\"healthCheck\":{\"command\":[\"CMD-SHELL\",\"wget -qO- http://localhost:8080/actuator/health || exit 1\"],\"interval\":30,\"retries\":3,\"startPeriod\":60,\"timeout\":5},\"image\":\"580241343441.dkr.ecr.ap-southeast-4.amazonaws.com/qd-auth:latest\",\"logConfiguration\":{\"logDriver\":\"awslogs\",\"options\":{\"awslogs-group\":\"/ecs/qd-auth-staging\",\"awslogs-region\":\"ap-southeast-4\",\"awslogs-stream-prefix\":\"ecs\"}},\"name\":\"qd-auth-staging\",\"portMappings\":[{\"containerPort\":8080,\"protocol\":\"tcp\"}],\"secrets\":[{\"name\":\"RSA_PRIVATE_KEY\",\"valueFrom\":\"arn:aws:secretsmanager:ap-southeast-4:580241343441:secret:qd-auth-staging/rsa-private-key-L72oGp:::\"},{\"name\":\"RSA_PUBLIC_KEY\",\"valueFrom\":\"arn:aws:secretsmanager:ap-southeast-4:580241343441:secret:qd-auth-staging/rsa-public-key-o79UAp:::\"},{\"name\":\"SPRING_DATASOURCE_PASSWORD\",\"valueFrom\":\"arn:aws:secretsmanager:ap-southeast-4:580241343441:secret:qd-auth-staging/db-password-sg4ehV:password::\"},{\"name\":\"SPRING_DATASOURCE_USERNAME\",\"valueFrom\":\"arn:aws:secretsmanager:ap-southeast-4:580241343441:secret:qd-auth-staging/db-password-sg4ehV:username::\"}]}]") does not match config value cty.StringVal("[{\"environment\":[{\"name\":\"SPRING_DATASOURCE_URL\",\"value\":\"jdbc:mysql://qd-auth-staging-mysql.cdmgo86cedwr.ap-southeast-4.rds.amazonaws.com:3306/qdauth\"}],\"essential\":true,\"healthCheck\":{\"command\":[\"CMD-SHELL\",\"wget -qO- http://localhost:8080/actuator/health || exit 1\"],\"interval\":30,\"retries\":3,\"startPeriod\":60,\"timeout\":5},\"image\":\"580241343441.dkr.ecr.ap-southeast-4.amazonaws.com/qd-auth:latest\",\"logConfiguration\":{\"logDriver\":\"awslogs\",\"options\":{\"awslogs-group\":\"/ecs/qd-auth-staging\",\"awslogs-region\":\"ap-southeast-4\",\"awslogs-stream-prefix\":\"ecs\"}},\"name\":\"qd-auth-staging\",\"portMappings\":[{\"containerPort\":8080,\"protocol\":\"tcp\"}],\"secrets\":[{\"name\":\"SPRING_DATASOURCE_USERNAME\",\"valueFrom\":\"arn:aws:secretsmanager:ap-southeast-4:580241343441:secret:qd-auth-staging/db-password-sg4ehV:username::\"},{\"name\":\"SPRING_DATASOURCE_PASSWORD\",\"valueFrom\":\"arn:aws:secretsmanager:ap-southeast-4:580241343441:secret:qd-auth-staging/db-password-sg4ehV:password::\"},{\"name\":\"RSA_PRIVATE_KEY\",\"valueFrom\":\"arn:aws:secretsmanager:ap-southeast-4:580241343441:secret:qd-auth-staging/rsa-private-key-L72oGp:::\"},{\"name\":\"RSA_PUBLIC_KEY\",\"valueFrom\":\"arn:aws:secretsmanager:ap-southeast-4:580241343441:secret:qd-auth-staging/rsa-public-key-o79UAp:::\"}]}]")
+      - .track_latest: planned value cty.False for a non-computed attribute
+      - .skip_destroy: planned value cty.False for a non-computed attribute
+2026-06-09T17:44:43.471+1000 [INFO]  Starting apply for module.ecs.aws_ecs_task_definition.this
+2026-06-09T17:44:43.577+1000 [WARN]  Provider "provider[\"registry.terraform.io/hashicorp/aws\"]" produced an unexpected new value for module.ecs.aws_ecs_task_definition.this, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .container_definitions: was cty.StringVal("[{\"environment\":[{\"name\":\"SPRING_DATASOURCE_URL\",\"value\":\"jdbc:mysql://qd-auth-staging-mysql.cdmgo86cedwr.ap-southeast-4.rds.amazonaws.com:3306/qdauth\"}],\"essential\":true,\"healthCheck\":{\"command\":[\"CMD-SHELL\",\"wget -qO- http://localhost:8080/actuator/health || exit 1\"],\"interval\":30,\"retries\":3,\"startPeriod\":60,\"timeout\":5},\"image\":\"580241343441.dkr.ecr.ap-southeast-4.amazonaws.com/qd-auth:latest\",\"logConfiguration\":{\"logDriver\":\"awslogs\",\"options\":{\"awslogs-group\":\"/ecs/qd-auth-staging\",\"awslogs-region\":\"ap-southeast-4\",\"awslogs-stream-prefix\":\"ecs\"}},\"name\":\"qd-auth-staging\",\"portMappings\":[{\"containerPort\":8080,\"protocol\":\"tcp\"}],\"secrets\":[{\"name\":\"RSA_PRIVATE_KEY\",\"valueFrom\":\"arn:aws:secretsmanager:ap-southeast-4:580241343441:secret:qd-auth-staging/rsa-private-key-L72oGp:::\"},{\"name\":\"RSA_PUBLIC_KEY\",\"valueFrom\":\"arn:aws:secretsmanager:ap-southeast-4:580241343441:secret:qd-auth-staging/rsa-public-key-o79UAp:::\"},{\"name\":\"SPRING_DATASOURCE_PASSWORD\",\"valueFrom\":\"arn:aws:secretsmanager:ap-southeast-4:580241343441:secret:qd-auth-staging/db-password-sg4ehV:password::\"},{\"name\":\"SPRING_DATASOURCE_USERNAME\",\"valueFrom\":\"arn:aws:secretsmanager:ap-southeast-4:580241343441:secret:qd-auth-staging/db-password-sg4ehV:username::\"}]}]"), but now cty.StringVal("[{\"environment\":[{\"name\":\"SPRING_DATASOURCE_URL\",\"value\":\"jdbc:mysql://qd-auth-staging-mysql.cdmgo86cedwr.ap-southeast-4.rds.amazonaws.com:3306/qdauth\"}],\"essential\":true,\"healthCheck\":{\"command\":[\"CMD-SHELL\",\"wget -qO- http://localhost:8080/actuator/health || exit 1\"],\"interval\":30,\"retries\":3,\"startPeriod\":60,\"timeout\":5},\"image\":\"580241343441.dkr.ecr.ap-southeast-4.amazonaws.com/qd-auth:latest\",\"logConfiguration\":{\"logDriver\":\"awslogs\",\"options\":{\"awslogs-region\":\"ap-southeast-4\",\"awslogs-stream-prefix\":\"ecs\",\"awslogs-group\":\"/ecs/qd-auth-staging\"}},\"mountPoints\":[],\"name\":\"qd-auth-staging\",\"portMappings\":[{\"containerPort\":8080,\"hostPort\":8080,\"protocol\":\"tcp\"}],\"secrets\":[{\"name\":\"RSA_PRIVATE_KEY\",\"valueFrom\":\"arn:aws:secretsmanager:ap-southeast-4:580241343441:secret:qd-auth-staging/rsa-private-key-L72oGp:::\"},{\"name\":\"RSA_PUBLIC_KEY\",\"valueFrom\":\"arn:aws:secretsmanager:ap-southeast-4:580241343441:secret:qd-auth-staging/rsa-public-key-o79UAp:::\"},{\"name\":\"SPRING_DATASOURCE_PASSWORD\",\"valueFrom\":\"arn:aws:secretsmanager:ap-southeast-4:580241343441:secret:qd-auth-staging/db-password-sg4ehV:password::\"},{\"name\":\"SPRING_DATASOURCE_USERNAME\",\"valueFrom\":\"arn:aws:secretsmanager:ap-southeast-4:580241343441:secret:qd-auth-staging/db-password-sg4ehV:username::\"}],\"systemControls\":[],\"volumesFrom\":[]}]")
+      - .ipc_mode: was null, but now cty.StringVal("")
+      - .pid_mode: was null, but now cty.StringVal("")
+2026-06-09T17:44:52.612+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.ecs.aws_ecs_service.this, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .scheduling_strategy: planned value cty.StringVal("REPLICA") for a non-computed attribute
+      - .availability_zone_rebalancing: planned value cty.StringVal("DISABLED") for a non-computed attribute
+      - .wait_for_steady_state: planned value cty.False for a non-computed attribute
+      - .enable_ecs_managed_tags: planned value cty.False for a non-computed attribute
+      - .enable_execute_command: planned value cty.False for a non-computed attribute
+2026-06-09T17:44:52.612+1000 [INFO]  Starting apply for module.ecs.aws_ecs_service.this
+2026-06-09T17:47:55.486+1000 [WARN]  Provider "provider[\"registry.terraform.io/hashicorp/aws\"]" produced an unexpected new value for module.alb.aws_lb.this, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .enable_cross_zone_load_balancing: was null, but now cty.True
+      - .customer_owned_ipv4_pool: was null, but now cty.StringVal("")
+      - .access_logs: block count changed from 0 to 1
+      - .connection_logs: block count changed from 0 to 1
+2026-06-09T17:47:55.490+1000 [INFO]  backend-s3: Uploading remote state: tf_backend.operation=Put tf_backend.req_id=6d908fb9-1ecb-611a-0b8b-b7c5b0c8d11d tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:47:55.642+1000 [WARN]  Provider "registry.terraform.io/hashicorp/aws" produced an invalid plan for module.alb.aws_lb_listener.http, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .mutual_authentication: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+2026-06-09T17:47:55.642+1000 [INFO]  Starting apply for module.alb.aws_lb_listener.http
+2026-06-09T17:47:57.677+1000 [WARN]  Provider "provider[\"registry.terraform.io/hashicorp/aws\"]" produced an unexpected new value for module.ecs.aws_ecs_service.this, but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .health_check_grace_period_seconds: was null, but now cty.NumberIntVal(0)
+      - .propagate_tags: was null, but now cty.StringVal("NONE")
+      - .deployment_controller: block count changed from 0 to 1
+2026-06-09T17:47:57.688+1000 [INFO]  provider: plugin process exited: plugin=.terraform/providers/registry.terraform.io/hashicorp/aws/5.100.0/darwin_arm64/terraform-provider-aws_v5.100.0_x5 id=39241
+2026-06-09T17:47:57.691+1000 [INFO]  backend-s3: Uploading remote state: tf_backend.operation=Put tf_backend.req_id=4dd81b18-a30b-c4a5-9bd1-9f02bd3ad0f7 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:47:57.768+1000 [INFO]  backend-s3: Attempting to unlock remote state (S3 Native only)...: tf_backend.lock.id=1661a70c-ac3f-0e25-e96b-11548ce1f405 tf_backend.operation=Unlock tf_backend.req_id=9fe20994-1a55-2d99-6eb0-3adb59d74748 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
+2026-06-09T17:47:57.845+1000 [INFO]  backend-s3: Unlocked remote state (S3 Native only): tf_backend.lock.id=1661a70c-ac3f-0e25-e96b-11548ce1f405 tf_backend.operation=Unlock tf_backend.req_id=9fe20994-1a55-2d99-6eb0-3adb59d74748 tf_backend.s3.bucket=qd-terraform-state-580241343441 tf_backend.s3.path=staging/terraform.tfstate
