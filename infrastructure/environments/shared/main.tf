@@ -9,9 +9,9 @@ terraform {
   }
 
   backend "s3" {
-    bucket       = "qd-terraform-state-580241343441"
+    bucket       = "terraform-state-580241343441"
     key          = "shared/terraform.tfstate"
-    region       = "ap-southeast-4"
+    region       = "ap-southeast-2"
     use_lockfile = true
     encrypt      = true
   }
