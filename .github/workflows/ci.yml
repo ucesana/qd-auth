@@ -18,7 +18,7 @@ permissions:
   contents: read
 
 env:
-  AWS_REGION: ap-southeast-4
+  AWS_REGION: ap-southeast-2
   ECR_REPOSITORY: qd-auth
   IMAGE_TAG: sha-${{ github.sha }}
 
