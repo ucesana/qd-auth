@@ -9,9 +9,9 @@ terraform {
   }
 
   backend "s3" {
-    bucket       = "qd-terraform-state-580241343441"
+    bucket       = "terraform-state-580241343441"
     key          = "production/terraform.tfstate"
-    region       = "ap-southeast-4"
+    region       = "ap-southeast-2"
     use_lockfile = true
     encrypt      = true
   }
@@ -24,9 +24,9 @@ provider "aws" {
 data "terraform_remote_state" "shared" {
   backend = "s3"
   config = {
-    bucket = "qd-terraform-state-580241343441"
+    bucket = "terraform-state-580241343441"
     key    = "shared/terraform.tfstate"
-    region = "ap-southeast-4"
+    region = "ap-southeast-2"
   }
 }
 
@@ -64,9 +64,9 @@ module "rds" {
 
   instance_class          = "db.t3.small"
   multi_az                = true
-  skip_final_snapshot     = false
-  deletion_protection     = true
   backup_retention_period = 7
+  skip_final_snapshot     = var.skip_final_snapshot
+  deletion_protection     = var.deletion_protection_rds
 }
 
 resource "aws_secretsmanager_secret" "rsa_private_key" {

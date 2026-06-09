@@ -1,7 +1,7 @@
 variable "aws_region" {
   description = "AWS region for the remote state backend resources."
   type        = string
-  default     = "ap-southeast-4"
+  default     = "ap-southeast-2"
 }
 
 variable "state_bucket_name" {

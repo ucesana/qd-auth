@@ -1,7 +1,7 @@
 variable "aws_region" {
   description = "AWS region."
   type        = string
-  default     = "ap-southeast-4"
+  default     = "ap-southeast-2"
 }
 
 variable "ecr_repository_name" {

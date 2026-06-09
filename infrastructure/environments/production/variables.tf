@@ -1,7 +1,7 @@
 variable "aws_region" {
   description = "AWS region."
   type        = string
-  default     = "ap-southeast-4"
+  default     = "ap-southeast-2"
 }
 
 variable "ecr_repository_name" {
@@ -31,4 +31,14 @@ variable "rsa_public_key" {
   description = "Base64-encoded RSA public key."
   type        = string
   sensitive   = true
+}
+
+variable "skip_final_snapshot" {
+  type    = bool
+  default = false
+}
+
+variable "deletion_protection_rds" {
+  type    = bool
+  default = true
 }
