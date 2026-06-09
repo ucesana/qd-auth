@@ -96,3 +96,36 @@ resource "aws_iam_role_policy" "github_actions_ecr" {
     ]
   })
 }
+
+resource "aws_iam_role_policy" "github_actions_ecs" {
+  name = "qd-github-actions-ecs"
+  role = aws_iam_role.github_actions.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "ecs:DescribeTaskDefinition",
+          "ecs:RegisterTaskDefinition",
+          "ecs:DescribeServices",
+          "ecs:UpdateService",
+          "ecs:DescribeClusters",
+          "ecs:ListTaskDefinitions"
+        ]
+        Resource = "*"
+      },
+      {
+        Effect   = "Allow"
+        Action   = ["iam:PassRole"]
+        Resource = "*"
+        Condition = {
+          StringLike = {
+            "iam:PassedToService" = "ecs-tasks.amazonaws.com"
+          }
+        }
+      }
+    ]
+  })
+}
