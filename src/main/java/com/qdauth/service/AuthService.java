@@ -2,25 +2,26 @@ package com.qdauth.service;
 
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.qdauth.dto.LoginRequest;
-import com.qdauth.dto.RefreshRequest;
-import com.qdauth.dto.TokenResponse;
-import com.qdauth.model.RefreshToken;
+import com.qdauth.dto.RefreshTokenRequest;
+import com.qdauth.dto.TokensResponse;
 import com.qdauth.model.User;
 import com.qdauth.repository.RefreshTokenRepository;
 import com.qdauth.repository.UserRepository;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import jakarta.validation.Valid;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import static com.qdauth.service.JwtService.ACCESS_TOKEN_EXPIRY_SECONDS;
+import static com.qdauth.service.JwtService.REFRESH_TOKEN_EXPIRY_DAYS;
+
 @Service
 public class AuthService {
-
-  private static final long ACCESS_TOKEN_EXPIRY_SECONDS = 900;
-  private static final long REFRESH_TOKEN_EXPIRY_DAYS = 7;
 
   private final UserRepository userRepository;
   private final RefreshTokenRepository refreshTokenRepository;
@@ -39,7 +40,7 @@ public class AuthService {
   }
 
   @Transactional
-  public TokenResponse login(LoginRequest request) throws Exception {
+  public TokensResponse login(LoginRequest request) throws Exception {
     final User user =
         userRepository
             .findByEmail(request.getEmail())
@@ -57,7 +58,7 @@ public class AuthService {
   }
 
   @Transactional
-  public TokenResponse refresh(RefreshRequest request) throws Exception {
+  public TokensResponse refresh(RefreshTokenRequest request) throws Exception {
     final JWTClaimsSet claims = jwtService.verify(request.getRefreshToken());
 
     final String type = (String) claims.getClaim("type");
@@ -67,7 +68,7 @@ public class AuthService {
 
     final String tokenId = claims.getJWTID();
 
-    final RefreshToken stored =
+    final com.qdauth.model.RefreshToken stored =
         refreshTokenRepository
             .findById(tokenId)
             .orElseThrow(() -> new SecurityException("Invalid refresh token."));
@@ -100,14 +101,14 @@ public class AuthService {
     return issueTokenPair(user, stored.getFamilyId());
   }
 
-  private TokenResponse issueTokenPair(User user, String familyId) throws Exception {
+  private TokensResponse issueTokenPair(User user, String familyId) throws Exception {
     final List<String> roles =
         user.getRoles().stream().map(role -> role.getName()).collect(Collectors.toList());
 
     final String accessToken = jwtService.issueAccessToken(user.getId(), roles);
 
     // Persist the refresh token record first to obtain its ID
-    final RefreshToken refreshToken = new RefreshToken();
+    final com.qdauth.model.RefreshToken refreshToken = new com.qdauth.model.RefreshToken();
     refreshToken.setUser(user);
     refreshToken.setFamilyId(familyId);
     refreshToken.setExpiresAt(LocalDateTime.now().plusDays(REFRESH_TOKEN_EXPIRY_DAYS));
@@ -115,6 +116,26 @@ public class AuthService {
 
     final String refreshTokenJwt = jwtService.issueRefreshToken(user.getId(), refreshToken.getId());
 
-    return new TokenResponse(accessToken, refreshTokenJwt, ACCESS_TOKEN_EXPIRY_SECONDS);
+    return new TokensResponse(accessToken, refreshTokenJwt, ACCESS_TOKEN_EXPIRY_SECONDS);
+  }
+
+  @Transactional
+  public void logout(@Valid RefreshTokenRequest request) {
+    final JWTClaimsSet claims;
+    try {
+      claims = jwtService.verify(request.getRefreshToken());
+    } catch (Exception e) {
+      // The token is malformed or its signature is invalid.
+      // Logout is treated as a no-op: the client's cookie will be cleared
+      // by the controller regardless, so there is no security gap.
+      return;
+    }
+
+    final String tokenId = claims.getJWTID();
+
+    refreshTokenRepository.findById(tokenId).ifPresent(token ->
+            refreshTokenRepository.revokeFamily(token.getFamilyId())
+    );
+
   }
 }

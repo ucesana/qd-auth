@@ -5,7 +5,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 import com.qdauth.dto.AccountResponse;
-import com.qdauth.dto.RegisterRequest;
+import com.qdauth.dto.RegistrationRequest;
 import com.qdauth.model.User;
 import com.qdauth.repository.UserRepository;
 import java.util.Optional;
@@ -36,7 +36,7 @@ class AccountServiceTest {
     when(userRepository.existsByEmail("new@example.com")).thenReturn(false);
     when(userRepository.save(any(User.class))).thenAnswer(i -> i.getArgument(0));
 
-    RegisterRequest request = new RegisterRequest();
+    RegistrationRequest request = new RegistrationRequest();
     request.setEmail("new@example.com");
     request.setPassword("password123");
 
@@ -51,7 +51,7 @@ class AccountServiceTest {
   void register_throwsOnDuplicateEmail() {
     when(userRepository.existsByEmail("existing@example.com")).thenReturn(true);
 
-    RegisterRequest request = new RegisterRequest();
+    RegistrationRequest request = new RegistrationRequest();
     request.setEmail("existing@example.com");
     request.setPassword("password123");
 
@@ -65,7 +65,7 @@ class AccountServiceTest {
     when(userRepository.existsByEmail(any())).thenReturn(false);
     when(userRepository.save(any(User.class))).thenAnswer(i -> i.getArgument(0));
 
-    RegisterRequest request = new RegisterRequest();
+    RegistrationRequest request = new RegistrationRequest();
     request.setEmail("new@example.com");
     request.setPassword("plaintext");
 

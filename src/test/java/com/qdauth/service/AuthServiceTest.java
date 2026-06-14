@@ -5,9 +5,8 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 import com.qdauth.dto.LoginRequest;
-import com.qdauth.dto.RefreshRequest;
-import com.qdauth.dto.TokenResponse;
-import com.qdauth.model.RefreshToken;
+import com.qdauth.dto.RefreshTokenRequest;
+import com.qdauth.dto.TokensResponse;
 import com.qdauth.model.User;
 import com.qdauth.repository.RefreshTokenRepository;
 import com.qdauth.repository.UserRepository;
@@ -52,13 +51,13 @@ class AuthServiceTest {
   @Test
   void login_returnsTokenPairOnValidCredentials() throws Exception {
     when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.of(testUser));
-    when(refreshTokenRepository.save(any(RefreshToken.class))).thenAnswer(i -> i.getArgument(0));
+    when(refreshTokenRepository.save(any(com.qdauth.model.RefreshToken.class))).thenAnswer(i -> i.getArgument(0));
 
     LoginRequest request = new LoginRequest();
     request.setEmail("test@example.com");
     request.setPassword("password123");
 
-    TokenResponse response = authService.login(request);
+    TokensResponse response = authService.login(request);
 
     assertThat(response.getAccessToken()).isNotBlank();
     assertThat(response.getRefreshToken()).isNotBlank();
@@ -113,7 +112,7 @@ class AuthServiceTest {
 
     String refreshJwt = jwtService.issueRefreshToken(testUser.getId(), tokenId);
 
-    RefreshToken stored = new RefreshToken();
+    com.qdauth.model.RefreshToken stored = new com.qdauth.model.RefreshToken();
     stored.setUser(testUser);
     stored.setFamilyId(familyId);
     stored.setConsumed(false);
@@ -121,16 +120,16 @@ class AuthServiceTest {
     stored.setExpiresAt(LocalDateTime.now().plusDays(7));
 
     when(refreshTokenRepository.findById(tokenId)).thenReturn(Optional.of(stored));
-    when(refreshTokenRepository.save(any(RefreshToken.class))).thenAnswer(i -> i.getArgument(0));
+    when(refreshTokenRepository.save(any(com.qdauth.model.RefreshToken.class))).thenAnswer(i -> i.getArgument(0));
 
-    RefreshRequest request = new RefreshRequest();
+    RefreshTokenRequest request = new RefreshTokenRequest();
     request.setRefreshToken(refreshJwt);
 
-    TokenResponse response = authService.refresh(request);
+    TokensResponse response = authService.refresh(request);
 
     assertThat(response.getAccessToken()).isNotBlank();
     assertThat(response.getRefreshToken()).isNotBlank();
-    verify(refreshTokenRepository).save(argThat(RefreshToken::isConsumed));
+    verify(refreshTokenRepository).save(argThat(com.qdauth.model.RefreshToken::isConsumed));
   }
 
   @Test
@@ -140,7 +139,7 @@ class AuthServiceTest {
 
     String refreshJwt = jwtService.issueRefreshToken(testUser.getId(), tokenId);
 
-    RefreshToken consumed = new RefreshToken();
+    com.qdauth.model.RefreshToken consumed = new com.qdauth.model.RefreshToken();
     consumed.setUser(testUser);
     consumed.setFamilyId(familyId);
     consumed.setConsumed(true);
@@ -149,7 +148,7 @@ class AuthServiceTest {
 
     when(refreshTokenRepository.findById(tokenId)).thenReturn(Optional.of(consumed));
 
-    RefreshRequest request = new RefreshRequest();
+    RefreshTokenRequest request = new RefreshTokenRequest();
     request.setRefreshToken(refreshJwt);
 
     assertThatThrownBy(() -> authService.refresh(request))
@@ -164,7 +163,7 @@ class AuthServiceTest {
     String tokenId = UUID.randomUUID().toString();
     String refreshJwt = jwtService.issueRefreshToken(testUser.getId(), tokenId);
 
-    RefreshToken revoked = new RefreshToken();
+    com.qdauth.model.RefreshToken revoked = new com.qdauth.model.RefreshToken();
     revoked.setUser(testUser);
     revoked.setFamilyId(UUID.randomUUID().toString());
     revoked.setConsumed(false);
@@ -173,7 +172,7 @@ class AuthServiceTest {
 
     when(refreshTokenRepository.findById(tokenId)).thenReturn(Optional.of(revoked));
 
-    RefreshRequest request = new RefreshRequest();
+    RefreshTokenRequest request = new RefreshTokenRequest();
     request.setRefreshToken(refreshJwt);
 
     assertThatThrownBy(() -> authService.refresh(request))

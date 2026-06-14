@@ -4,9 +4,11 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public class RegisterRequest {
+public class RegistrationRequest {
 
-  @NotBlank @Email private String email;
+  @NotBlank
+  @Email
+  private String email;
 
   @NotBlank
   @Size(min = 8, max = 72) // bcrypt has a maximum password length of 72 bytes

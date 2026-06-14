@@ -1,7 +1,7 @@
 package com.qdauth.service;
 
 import com.qdauth.dto.AccountResponse;
-import com.qdauth.dto.RegisterRequest;
+import com.qdauth.dto.RegistrationRequest;
 import com.qdauth.model.User;
 import com.qdauth.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,14 +20,14 @@ public class AccountService {
   }
 
   @Transactional
-  public AccountResponse register(RegisterRequest request) {
-    if (userRepository.existsByEmail(request.getEmail())) {
+  public AccountResponse register(RegistrationRequest registration) {
+    if (userRepository.existsByEmail(registration.getEmail())) {
       throw new IllegalArgumentException("Email already registered.");
     }
 
     final User user = new User();
-    user.setEmail(request.getEmail());
-    user.setPassword(passwordEncoder.encode(request.getPassword()));
+    user.setEmail(registration.getEmail());
+    user.setPassword(passwordEncoder.encode(registration.getPassword()));
 
     userRepository.save(user);
 

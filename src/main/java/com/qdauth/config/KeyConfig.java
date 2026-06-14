@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 
 @Configuration
 public class KeyConfig {
@@ -67,5 +69,10 @@ public class KeyConfig {
 
   private String readClasspath(String path) throws Exception {
     return new String(new ClassPathResource(path).getInputStream().readAllBytes());
+  }
+
+  @Bean
+  public JwtDecoder jwtDecoder(RSAPublicKey rsaPublicKey) {
+    return NimbusJwtDecoder.withPublicKey(rsaPublicKey).build();
   }
 }

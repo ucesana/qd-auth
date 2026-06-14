@@ -1,6 +1,8 @@
 package com.qdauth.repository;
 
 import com.qdauth.model.RefreshToken;
+
+import java.time.LocalDateTime;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -18,4 +20,8 @@ public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Stri
   @Modifying
   @Query("UPDATE RefreshToken t SET t.revoked = true WHERE t.user.id = :userId")
   void revokeAllForUser(@Param("userId") String userId);
+
+  @Modifying
+  @Query("DELETE FROM RefreshToken t WHERE t.expiresAt < :now")
+  void deleteExpired(@Param("now") LocalDateTime now);
 }
