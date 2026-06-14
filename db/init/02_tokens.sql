@@ -13,3 +13,4 @@ CREATE TABLE IF NOT EXISTS refresh_tokens (
 );
 
 CREATE INDEX idx_refresh_tokens_family ON refresh_tokens (family_id);
+CREATE INDEX idx_refresh_tokens_expires_at ON refresh_tokens (expires_at);

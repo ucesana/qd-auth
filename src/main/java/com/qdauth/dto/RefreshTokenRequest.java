@@ -2,9 +2,17 @@ package com.qdauth.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-public class RefreshRequest {
+public class RefreshTokenRequest {
 
   @NotBlank private String refreshToken;
+
+  public RefreshTokenRequest() {
+    this("");
+  }
+
+  public RefreshTokenRequest(String refreshToken) {
+    this.refreshToken = refreshToken;
+  }
 
   public String getRefreshToken() {
     return refreshToken;

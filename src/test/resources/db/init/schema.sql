@@ -1,4 +1,4 @@
--- db/init/01_schema.sql
+-- db/init/schema.sql
 
 CREATE TABLE IF NOT EXISTS users (
     id         CHAR(36)        NOT NULL,
@@ -40,3 +40,4 @@ CREATE TABLE IF NOT EXISTS refresh_tokens (
 );
 
 CREATE INDEX idx_refresh_tokens_family ON refresh_tokens (family_id);
+CREATE INDEX idx_refresh_tokens_expires_at ON refresh_tokens (expires_at);

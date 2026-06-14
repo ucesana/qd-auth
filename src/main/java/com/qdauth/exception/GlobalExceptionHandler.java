@@ -1,8 +1,12 @@
 package com.qdauth.exception;
 
+import com.qdauth.controller.AccountController;
 import com.qdauth.dto.ErrorResponse;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+  private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
   @ExceptionHandler(IllegalArgumentException.class)
   @ResponseStatus(HttpStatus.CONFLICT)
@@ -44,6 +49,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(Exception.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public ErrorResponse handleGeneric(Exception ex) {
+    log.error(HttpStatus.INTERNAL_SERVER_ERROR.toString(), ex);
     return new ErrorResponse(
         HttpStatus.INTERNAL_SERVER_ERROR.value(), "An unexpected error occurred.");
   }

@@ -14,8 +14,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class JwtService {
 
-  private static final long ACCESS_TOKEN_EXPIRY_SECONDS = 900; // 15 minutes
-  private static final long REFRESH_TOKEN_EXPIRY_SECONDS = 604800; // 7 days
+  public static final long ACCESS_TOKEN_EXPIRY_SECONDS = 900; // 15 minutes
+  public static final long REFRESH_TOKEN_EXPIRY_DAYS = 7;
+  public static final long REFRESH_TOKEN_EXPIRY_SECONDS = REFRESH_TOKEN_EXPIRY_DAYS * 24 * 60 * 60;
+
+  public static final String ACCESS_TOKEN = "access_token";
+  public static final String REFRESH_TOKEN = "refresh_token";
 
   private final RSAPrivateKey privateKey;
   private final RSAPublicKey publicKey;
@@ -36,21 +40,6 @@ public class JwtService {
             .jwtID(UUID.randomUUID().toString())
             .claim("roles", roles)
             .claim("type", "access")
-            .build();
-
-    return sign(claims);
-  }
-
-  public String issueRefreshToken(String subject) throws JOSEException {
-    final Instant now = Instant.now();
-    final JWTClaimsSet claims =
-        new JWTClaimsSet.Builder()
-            .subject(subject)
-            .issuer("qd-auth")
-            .issueTime(Date.from(now))
-            .expirationTime(Date.from(now.plusSeconds(REFRESH_TOKEN_EXPIRY_SECONDS)))
-            .jwtID(UUID.randomUUID().toString())
-            .claim("type", "refresh")
             .build();
 
     return sign(claims);

@@ -4,13 +4,17 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.qdauth.BaseIntegrationTest;
+import com.qdauth.service.JwtService;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.testcontainers.shaded.com.google.common.net.HttpHeaders;
 
-@Transactional
+import java.security.interfaces.RSAPublicKey;
+import java.util.Arrays;
+
 class AccountIntegrationTest extends BaseIntegrationTest {
 
   @Autowired private MockMvc mockMvc;
@@ -81,42 +85,59 @@ class AccountIntegrationTest extends BaseIntegrationTest {
   @Test
   void getMe_returns200WithValidToken() throws Exception {
     // Register
-    mockMvc
-        .perform(
+    mockMvc.perform(
             post("/api/accounts/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(
-                    """
-                    {"email":"me@example.com","password":"password123"}
-                    """))
-        .andExpect(status().isCreated());
-
-    // Login
-    String loginResponse =
-        mockMvc
-            .perform(
-                post("/api/auth/login")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(
-                        """
-                        {"email":"me@example.com","password":"password123"}
-                        """))
+                    .content("""
+                              {"email":"me@example.com","password":"password123"}
+                            """))
+            .andExpect(status().isCreated());
+
+    // Login — capture the Set-Cookie header
+    String setCookieHeader = mockMvc.perform(
+                    post("/api/auth/login")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content("""
+                {"email":"me@example.com","password":"password123"}
+                """))
             .andExpect(status().isOk())
             .andReturn()
             .getResponse()
-            .getContentAsString();
+            .getHeader(HttpHeaders.SET_COOKIE);
 
-    String accessToken = com.jayway.jsonpath.JsonPath.read(loginResponse, "$.accessToken");
+    // Extract the cookie value from the Set-Cookie header
+    // Header format: "access_token=<jwt>; Path=/; Max-Age=900; HttpOnly; Secure; SameSite=Strict"
+    String accessTokenCookie = Arrays.stream(setCookieHeader.split(";"))
+            .map(String::trim)
+            .filter(part -> part.startsWith("access_token="))
+            .findFirst()
+            .orElseThrow(() -> new AssertionError("access_token cookie not found in Set-Cookie header"));
 
-    // Access protected endpoint
-    mockMvc
-        .perform(get("/api/accounts/me").header("Authorization", "Bearer " + accessToken))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.email").value("me@example.com"));
+    String cookieName  = accessTokenCookie.split("=", 2)[0];
+    String cookieValue = accessTokenCookie.split("=", 2)[1];
+
+    // Access protected endpoint — send the cookie as the browser would
+    mockMvc.perform(
+                    get("/api/accounts/me")
+                            .cookie(new jakarta.servlet.http.Cookie(cookieName, cookieValue)))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.email").value("me@example.com"));
   }
 
   @Test
   void getMe_returns401WithoutToken() throws Exception {
     mockMvc.perform(get("/api/accounts/me")).andExpect(status().isUnauthorized());
+  }
+
+  @Test
+  void preflight_returnsCorsHeaders() throws Exception {
+    mockMvc
+        .perform(
+            options("/api/accounts/register")
+                .header("Origin", "http://localhost:5173")
+                .header("Access-Control-Request-Method", "POST")
+                .header("Access-Control-Request-Headers", "content-type"))
+        .andExpect(status().isOk())
+        .andExpect(header().string("Access-Control-Allow-Origin", "http://localhost:5173"));
   }
 }
