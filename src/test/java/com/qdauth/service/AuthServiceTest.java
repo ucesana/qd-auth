@@ -9,6 +9,7 @@ import com.qdauth.dto.RefreshTokenRequest;
 import com.qdauth.dto.TokensResponse;
 import com.qdauth.model.User;
 import com.qdauth.repository.RefreshTokenRepository;
+import com.qdauth.repository.SessionRepository;
 import com.qdauth.repository.UserRepository;
 import com.qdauth.util.TestKeyLoader;
 import java.time.LocalDateTime;
@@ -29,18 +30,22 @@ class AuthServiceTest {
 
   @Mock private RefreshTokenRepository refreshTokenRepository;
 
+  @Mock private SessionRepository sessionRepository;
+
   private PasswordEncoder passwordEncoder;
   private JwtService jwtService;
   private AuthService authService;
 
   private User testUser;
 
+  private String deviceName = "MockUserAgent";
+
   @BeforeEach
   void setUp() throws Exception {
     passwordEncoder = new BCryptPasswordEncoder();
     jwtService = new JwtService(TestKeyLoader.loadPrivateKey(), TestKeyLoader.loadPublicKey());
     authService =
-        new AuthService(userRepository, refreshTokenRepository, passwordEncoder, jwtService);
+        new AuthService(userRepository, refreshTokenRepository, sessionRepository, passwordEncoder, jwtService);
 
     testUser = new User();
     testUser.setEmail("test@example.com");
@@ -57,7 +62,7 @@ class AuthServiceTest {
     request.setEmail("test@example.com");
     request.setPassword("password123");
 
-    TokensResponse response = authService.login(request);
+    TokensResponse response = authService.login(request, deviceName);
 
     assertThat(response.getAccessToken()).isNotBlank();
     assertThat(response.getRefreshToken()).isNotBlank();
@@ -73,7 +78,7 @@ class AuthServiceTest {
     request.setEmail("ghost@example.com");
     request.setPassword("password123");
 
-    assertThatThrownBy(() -> authService.login(request))
+    assertThatThrownBy(() -> authService.login(request, deviceName))
         .isInstanceOf(SecurityException.class)
         .hasMessageContaining("Invalid credentials");
   }
@@ -86,7 +91,7 @@ class AuthServiceTest {
     request.setEmail("test@example.com");
     request.setPassword("wrongpassword");
 
-    assertThatThrownBy(() -> authService.login(request))
+    assertThatThrownBy(() -> authService.login(request, deviceName))
         .isInstanceOf(SecurityException.class)
         .hasMessageContaining("Invalid credentials");
   }
@@ -100,7 +105,7 @@ class AuthServiceTest {
     request.setEmail("test@example.com");
     request.setPassword("password123");
 
-    assertThatThrownBy(() -> authService.login(request))
+    assertThatThrownBy(() -> authService.login(request, deviceName))
         .isInstanceOf(SecurityException.class)
         .hasMessageContaining("disabled");
   }

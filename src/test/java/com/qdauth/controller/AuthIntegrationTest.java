@@ -8,12 +8,15 @@ import com.qdauth.BaseIntegrationTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.*;
 
 class AuthIntegrationTest extends BaseIntegrationTest {
 
   @Autowired private MockMvc mockMvc;
+
+  private String userAgent = "MockUserAgent";
 
   @BeforeEach
   void registerTestUser() throws Exception {
@@ -32,6 +35,7 @@ class AuthIntegrationTest extends BaseIntegrationTest {
             .perform(
                 post("/api/auth/login")
                     .contentType(MediaType.APPLICATION_JSON)
+                    .header("User-Agent", userAgent)
                     .content(
                         """
                         {"email":"auth@example.com","password":"password123"}
@@ -50,6 +54,7 @@ class AuthIntegrationTest extends BaseIntegrationTest {
         .perform(
             post("/api/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("User-Agent", userAgent)
                 .content(
                     """
                     {"email":"auth@example.com","password":"password123"}
@@ -68,6 +73,7 @@ class AuthIntegrationTest extends BaseIntegrationTest {
         .perform(
             post("/api/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("User-Agent", userAgent)
                 .content(
                     """
                     {"email":"auth@example.com","password":"wrongpassword"}
@@ -82,6 +88,7 @@ class AuthIntegrationTest extends BaseIntegrationTest {
         .perform(
             post("/api/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("User-Agent", userAgent)
                 .content(
                     """
                     {"email":"ghost@example.com","password":"password123"}

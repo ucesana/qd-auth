@@ -7,6 +7,8 @@ import static org.mockito.Mockito.*;
 import com.qdauth.dto.AccountResponse;
 import com.qdauth.dto.RegistrationRequest;
 import com.qdauth.model.User;
+import com.qdauth.repository.RefreshTokenRepository;
+import com.qdauth.repository.SessionRepository;
 import com.qdauth.repository.UserRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +23,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 class AccountServiceTest {
 
   @Mock private UserRepository userRepository;
+  @Mock private RefreshTokenRepository refreshTokenRepository;
+  @Mock private SessionRepository sessionRepository;
 
   private PasswordEncoder passwordEncoder;
   private AccountService accountService;
@@ -28,7 +32,7 @@ class AccountServiceTest {
   @BeforeEach
   void setUp() {
     passwordEncoder = new BCryptPasswordEncoder();
-    accountService = new AccountService(userRepository, passwordEncoder);
+    accountService = new AccountService(userRepository, refreshTokenRepository, sessionRepository, passwordEncoder);
   }
 
   @Test

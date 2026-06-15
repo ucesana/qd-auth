@@ -4,8 +4,10 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.qdauth.dto.LoginRequest;
 import com.qdauth.dto.RefreshTokenRequest;
 import com.qdauth.dto.TokensResponse;
+import com.qdauth.model.Session;
 import com.qdauth.model.User;
 import com.qdauth.repository.RefreshTokenRepository;
+import com.qdauth.repository.SessionRepository;
 import com.qdauth.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,22 +27,25 @@ public class AuthService {
 
   private final UserRepository userRepository;
   private final RefreshTokenRepository refreshTokenRepository;
+  private final SessionRepository sessionRepository;
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
 
   public AuthService(
       UserRepository userRepository,
       RefreshTokenRepository refreshTokenRepository,
+      SessionRepository sessionRepository,
       PasswordEncoder passwordEncoder,
       JwtService jwtService) {
     this.userRepository = userRepository;
     this.refreshTokenRepository = refreshTokenRepository;
+    this.sessionRepository = sessionRepository;
     this.passwordEncoder = passwordEncoder;
     this.jwtService = jwtService;
   }
 
   @Transactional
-  public TokensResponse login(LoginRequest request) throws Exception {
+  public TokensResponse login(LoginRequest request, String deviceName) throws Exception {
     final User user =
         userRepository
             .findByEmail(request.getEmail())
@@ -53,6 +58,14 @@ public class AuthService {
     if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
       throw new SecurityException("Invalid credentials.");
     }
+
+    final Session session = new Session();
+    session.setFamilyId(UUID.randomUUID().toString());
+    session.setUser(user);
+    session.setDeviceName(deviceName);
+    session.setCreatedAt(LocalDateTime.now());
+    session.setLastUsedAt(LocalDateTime.now());
+    sessionRepository.save(session);
 
     return issueTokenPair(user, UUID.randomUUID().toString());
   }
@@ -97,6 +110,12 @@ public class AuthService {
       throw new SecurityException("Account is disabled.");
     }
 
+    // Update session activity timestamp
+    sessionRepository.findById(stored.getFamilyId()).ifPresent((Session session) -> {
+      session.setLastUsedAt(LocalDateTime.now());
+      sessionRepository.save(session);
+    });
+
     // Issue new token pair in the same family
     return issueTokenPair(user, stored.getFamilyId());
   }
@@ -133,9 +152,10 @@ public class AuthService {
 
     final String tokenId = claims.getJWTID();
 
-    refreshTokenRepository.findById(tokenId).ifPresent(token ->
-            refreshTokenRepository.revokeFamily(token.getFamilyId())
-    );
+    refreshTokenRepository.findById(tokenId).ifPresent(token -> {
+              refreshTokenRepository.revokeFamily(token.getFamilyId());
+              sessionRepository.deleteByFamilyId(token.getFamilyId());
+    });
 
   }
 }

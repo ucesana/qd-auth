@@ -32,9 +32,10 @@ public class AuthController {
   @PostMapping("/login")
   public TokensResponse login(
           @Valid @RequestBody LoginRequest request,
+          @RequestHeader(value = "User-Agent", defaultValue = "Unknown") String userAgent,
           HttpServletResponse response
   ) throws Exception {
-    TokensResponse tokens = authService.login(request);
+    TokensResponse tokens = authService.login(request, userAgent);
     setTokenCookies(response, tokens);
     return tokens;
   }
@@ -93,11 +94,15 @@ public class AuthController {
   }
 
   private void clearTokenCookies(HttpServletResponse response) {
-    response.addHeader(HttpHeaders.SET_COOKIE, expiredCookie("access_token").toString());
-    response.addHeader(HttpHeaders.SET_COOKIE, expiredCookie("refresh_token").toString());
+    response.addHeader(HttpHeaders.SET_COOKIE, expiredAccessTokenCookie().toString());
+    response.addHeader(HttpHeaders.SET_COOKIE, expiredRefreshTokenCookie().toString());
   }
 
-  private ResponseCookie expiredCookie(String name) {
-    return ResponseCookie.from(name, "").httpOnly(true).secure(true).path("/").maxAge(0).build();
+  private ResponseCookie expiredAccessTokenCookie() {
+    return ResponseCookie.from("access_token", "").httpOnly(true).secure(true).path("/").maxAge(0).build();
+  }
+
+  private ResponseCookie expiredRefreshTokenCookie() {
+    return ResponseCookie.from("refresh_token", "").httpOnly(true).secure(true).path("/api/auth").maxAge(0).build();
   }
 }
