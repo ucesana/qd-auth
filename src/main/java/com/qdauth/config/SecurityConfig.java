@@ -50,9 +50,11 @@ public class SecurityConfig {
                     .requestMatchers(
                         "/api/accounts/register",
                         "/api/auth/login",
-                        "/api/auth/refresh",
-                        "/api/auth/logout",
                         "/actuator/health").permitAll()
+                    .requestMatchers(
+                            "/api/auth/refresh",
+                            "/api/auth/logout",
+                            "/api/streams/live/**").authenticated()
                     .anyRequest().authenticated()
         )
         .oauth2ResourceServer(oauth2 -> oauth2
