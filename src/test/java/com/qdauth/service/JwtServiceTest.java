@@ -3,6 +3,7 @@ package com.qdauth.service;
 import static org.assertj.core.api.Assertions.*;
 
 import com.nimbusds.jwt.JWTClaimsSet;
+import com.qdauth.api.auth.service.JwtService;
 import com.qdauth.util.TestKeyLoader;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,9 +21,10 @@ class JwtServiceTest {
   @Test
   void issueAccessToken_containsExpectedClaims() throws Exception {
     String userId = "user-uuid-123";
+    String familyId = "family-uuid-123";
     List<String> roles = List.of("ROLE_USER");
 
-    String token = jwtService.issueAccessToken(userId, roles);
+    String token = jwtService.issueAccessToken(userId, roles, familyId);
     JWTClaimsSet claims = jwtService.verify(token);
 
     assertThat(claims.getSubject()).isEqualTo(userId);
@@ -48,7 +50,7 @@ class JwtServiceTest {
 
   @Test
   void verify_throwsOnTamperedToken() throws Exception {
-    String token = jwtService.issueAccessToken("user-uuid-123", List.of());
+    String token = jwtService.issueAccessToken("user-uuid-123", List.of(), "family-uuid-123");
     String tampered = token.substring(0, token.lastIndexOf('.') + 1) + "invalidsignature";
 
     assertThatThrownBy(() -> jwtService.verify(tampered)).isInstanceOf(Exception.class);

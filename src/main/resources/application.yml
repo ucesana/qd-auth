@@ -4,7 +4,9 @@ spring:
     name: qd-auth
 
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/qdauth}
+    # The serverTimezone=UTC parameter is not optional. Without it, the MySQL Connector/J driver uses the JVM default
+    # timezone for datetime conversion, which produces incorrect values on any server not running in UTC.
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/qdauth?serverTimezone=UTC}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -17,6 +19,14 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
         format_sql: true
+
+  jackson:
+    # With write-dates-as-timestamps: false, Jackson serialises Instant as "2026-06-15T07:28:31.000Z" and
+    # deserialises ISO 8601 strings back to Instant transparently, provided the jackson-datatype-jsr310 module is
+    # registered. Spring Boot auto-registers this module when it's on the classpath, which it's via spring-boot-starter-web
+    serialization:
+      write-dates-as-timestamps: false
+    time-zone: UTC
 
 server:
   port: 8080

@@ -4,16 +4,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.qdauth.BaseIntegrationTest;
-import com.qdauth.service.JwtService;
-import jakarta.transaction.Transactional;
+import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.shaded.com.google.common.net.HttpHeaders;
-
-import java.security.interfaces.RSAPublicKey;
-import java.util.Arrays;
 
 class AccountIntegrationTest extends BaseIntegrationTest {
 
@@ -85,19 +81,24 @@ class AccountIntegrationTest extends BaseIntegrationTest {
   @Test
   void getMe_returns200WithValidToken() throws Exception {
     // Register
-    mockMvc.perform(
+    mockMvc
+        .perform(
             post("/api/accounts/register")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content("""
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(
+                    """
                               {"email":"me@example.com","password":"password123"}
                             """))
-            .andExpect(status().isCreated());
+        .andExpect(status().isCreated());
 
     // Login — capture the Set-Cookie header
-    String setCookieHeader = mockMvc.perform(
-                    post("/api/auth/login")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content("""
+    String setCookieHeader =
+        mockMvc
+            .perform(
+                post("/api/auth/login")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(
+                        """
                 {"email":"me@example.com","password":"password123"}
                 """))
             .andExpect(status().isOk())
@@ -107,21 +108,24 @@ class AccountIntegrationTest extends BaseIntegrationTest {
 
     // Extract the cookie value from the Set-Cookie header
     // Header format: "access_token=<jwt>; Path=/; Max-Age=900; HttpOnly; Secure; SameSite=Strict"
-    String accessTokenCookie = Arrays.stream(setCookieHeader.split(";"))
+    String accessTokenCookie =
+        Arrays.stream(setCookieHeader.split(";"))
             .map(String::trim)
             .filter(part -> part.startsWith("access_token="))
             .findFirst()
-            .orElseThrow(() -> new AssertionError("access_token cookie not found in Set-Cookie header"));
+            .orElseThrow(
+                () -> new AssertionError("access_token cookie not found in Set-Cookie header"));
 
-    String cookieName  = accessTokenCookie.split("=", 2)[0];
+    String cookieName = accessTokenCookie.split("=", 2)[0];
     String cookieValue = accessTokenCookie.split("=", 2)[1];
 
     // Access protected endpoint — send the cookie as the browser would
-    mockMvc.perform(
-                    get("/api/accounts/me")
-                            .cookie(new jakarta.servlet.http.Cookie(cookieName, cookieValue)))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.email").value("me@example.com"));
+    mockMvc
+        .perform(
+            get("/api/accounts/me")
+                .cookie(new jakarta.servlet.http.Cookie(cookieName, cookieValue)))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.email").value("me@example.com"));
   }
 
   @Test

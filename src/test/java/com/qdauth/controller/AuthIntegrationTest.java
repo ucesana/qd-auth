@@ -8,7 +8,6 @@ import com.qdauth.BaseIntegrationTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.*;
 
@@ -16,17 +15,20 @@ class AuthIntegrationTest extends BaseIntegrationTest {
 
   @Autowired private MockMvc mockMvc;
 
-  private String userAgent = "MockUserAgent";
+  private String deviceId = "deviceId";
+  private String deviceName = "deviceName";
 
   @BeforeEach
   void registerTestUser() throws Exception {
-    mockMvc.perform(
-                    post("/api/accounts/register")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content("""
+    mockMvc
+        .perform(
+            post("/api/accounts/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(
+                    """
                     {"email":"auth@example.com","password":"password123"}
                     """))
-            .andExpect(status().isCreated());
+        .andExpect(status().isCreated());
   }
 
   private String loginAndGetToken(String field) throws Exception {
@@ -35,7 +37,8 @@ class AuthIntegrationTest extends BaseIntegrationTest {
             .perform(
                 post("/api/auth/login")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .header("User-Agent", userAgent)
+                    .header("X-Device-Id", deviceId)
+                    .header("User-Agent", deviceName)
                     .content(
                         """
                         {"email":"auth@example.com","password":"password123"}
@@ -54,7 +57,8 @@ class AuthIntegrationTest extends BaseIntegrationTest {
         .perform(
             post("/api/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
-                .header("User-Agent", userAgent)
+                .header("X-Device-Id", deviceId)
+                .header("User-Agent", deviceName)
                 .content(
                     """
                     {"email":"auth@example.com","password":"password123"}
@@ -73,7 +77,8 @@ class AuthIntegrationTest extends BaseIntegrationTest {
         .perform(
             post("/api/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
-                .header("User-Agent", userAgent)
+                .header("X-Device-Id", deviceId)
+                .header("User-Agent", deviceName)
                 .content(
                     """
                     {"email":"auth@example.com","password":"wrongpassword"}
@@ -88,7 +93,8 @@ class AuthIntegrationTest extends BaseIntegrationTest {
         .perform(
             post("/api/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
-                .header("User-Agent", userAgent)
+                .header("X-Device-Id", deviceId)
+                .header("User-Agent", deviceName)
                 .content(
                     """
                     {"email":"ghost@example.com","password":"password123"}
@@ -198,32 +204,39 @@ class AuthIntegrationTest extends BaseIntegrationTest {
   void logout_returns200() throws Exception {
     String refreshTokenRequest = loginAndGetToken("refreshToken");
 
-    ResultActions result = mockMvc
+    ResultActions result =
+        mockMvc
             .perform(
-                    post("/api/auth/logout")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(
-                                    String.format(
-                                            """
-                                            {"refreshToken":"%s"}
-                                            """,
-                                            refreshTokenRequest)))
+                post("/api/auth/logout")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(
+                        String.format(
+                            """
+                            {"refreshToken":"%s"}
+                            """,
+                            refreshTokenRequest)))
             .andExpect(status().isNoContent())
             .andExpect(cookiesInvalidated());
   }
 
-  private static void assertInvalidatedCookie(
-          String name,
-          MvcResult result
-  ) throws Exception {
-    cookie().exists(name).match(result);
-    cookie().value(name, "").match(result);
-    cookie().httpOnly(name, true).match(result);
-    cookie().secure(name, true).match(result);
-    cookie().path(name, "/").match(result);
-    cookie().maxAge(name, 0).match(result);
+  private static void assertInvalidAccessTokenCookie(MvcResult result) throws Exception {
+    cookie().exists("access_token").match(result);
+    cookie().value("access_token", "").match(result);
+    cookie().httpOnly("access_token", true).match(result);
+    cookie().secure("access_token", true).match(result);
+    cookie().path("access_token", "/").match(result);
+    cookie().maxAge("access_token", 0).match(result);
   }
-  
+
+  private static void assertInvalidRefreshTokenCookie(MvcResult result) throws Exception {
+    cookie().exists("refresh_token").match(result);
+    cookie().value("refresh_token", "").match(result);
+    cookie().httpOnly("refresh_token", true).match(result);
+    cookie().secure("refresh_token", true).match(result);
+    cookie().path("refresh_token", "/api/auth").match(result);
+    cookie().maxAge("refresh_token", 0).match(result);
+  }
+
   private static void assertValidAccessTokenCookie(MvcResult result) throws Exception {
     cookie().exists("access_token").match(result);
     cookie().value("access_token", not(blankOrNullString())).match(result);
@@ -251,8 +264,8 @@ class AuthIntegrationTest extends BaseIntegrationTest {
 
   public static ResultMatcher cookiesInvalidated() {
     return result -> {
-      assertInvalidatedCookie("access_token", result);
-      assertInvalidatedCookie("refresh_token", result);
+      assertInvalidAccessTokenCookie(result);
+      assertInvalidRefreshTokenCookie(result);
     };
   }
 }

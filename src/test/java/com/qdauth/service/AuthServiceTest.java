@@ -4,15 +4,18 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-import com.qdauth.dto.LoginRequest;
-import com.qdauth.dto.RefreshTokenRequest;
-import com.qdauth.dto.TokensResponse;
-import com.qdauth.model.User;
-import com.qdauth.repository.RefreshTokenRepository;
-import com.qdauth.repository.SessionRepository;
-import com.qdauth.repository.UserRepository;
+import com.qdauth.api.auth.dto.LoginRequest;
+import com.qdauth.api.auth.dto.RefreshTokenRequest;
+import com.qdauth.api.auth.dto.TokensResponse;
+import com.qdauth.api.auth.model.RefreshToken;
+import com.qdauth.api.auth.model.User;
+import com.qdauth.api.auth.repository.RefreshTokenRepository;
+import com.qdauth.api.auth.repository.SessionRepository;
+import com.qdauth.api.auth.repository.UserRepository;
+import com.qdauth.api.auth.service.AuthService;
+import com.qdauth.api.auth.service.JwtService;
 import com.qdauth.util.TestKeyLoader;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,20 +35,21 @@ class AuthServiceTest {
 
   @Mock private SessionRepository sessionRepository;
 
-  private PasswordEncoder passwordEncoder;
   private JwtService jwtService;
   private AuthService authService;
 
   private User testUser;
 
-  private String deviceName = "MockUserAgent";
+  private final String deviceId = "deviceId";
+  private final String deviceName = "deviceName";
 
   @BeforeEach
   void setUp() throws Exception {
-    passwordEncoder = new BCryptPasswordEncoder();
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     jwtService = new JwtService(TestKeyLoader.loadPrivateKey(), TestKeyLoader.loadPublicKey());
     authService =
-        new AuthService(userRepository, refreshTokenRepository, sessionRepository, passwordEncoder, jwtService);
+        new AuthService(
+            userRepository, refreshTokenRepository, sessionRepository, passwordEncoder, jwtService);
 
     testUser = new User();
     testUser.setEmail("test@example.com");
@@ -56,13 +60,13 @@ class AuthServiceTest {
   @Test
   void login_returnsTokenPairOnValidCredentials() throws Exception {
     when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.of(testUser));
-    when(refreshTokenRepository.save(any(com.qdauth.model.RefreshToken.class))).thenAnswer(i -> i.getArgument(0));
+    when(refreshTokenRepository.save(any(RefreshToken.class))).thenAnswer(i -> i.getArgument(0));
 
     LoginRequest request = new LoginRequest();
     request.setEmail("test@example.com");
     request.setPassword("password123");
 
-    TokensResponse response = authService.login(request, deviceName);
+    TokensResponse response = authService.login(request, deviceId, deviceName);
 
     assertThat(response.getAccessToken()).isNotBlank();
     assertThat(response.getRefreshToken()).isNotBlank();
@@ -78,7 +82,7 @@ class AuthServiceTest {
     request.setEmail("ghost@example.com");
     request.setPassword("password123");
 
-    assertThatThrownBy(() -> authService.login(request, deviceName))
+    assertThatThrownBy(() -> authService.login(request, deviceId, deviceName))
         .isInstanceOf(SecurityException.class)
         .hasMessageContaining("Invalid credentials");
   }
@@ -89,9 +93,9 @@ class AuthServiceTest {
 
     LoginRequest request = new LoginRequest();
     request.setEmail("test@example.com");
-    request.setPassword("wrongpassword");
+    request.setPassword("wrong-password");
 
-    assertThatThrownBy(() -> authService.login(request, deviceName))
+    assertThatThrownBy(() -> authService.login(request, deviceId, deviceName))
         .isInstanceOf(SecurityException.class)
         .hasMessageContaining("Invalid credentials");
   }
@@ -105,7 +109,7 @@ class AuthServiceTest {
     request.setEmail("test@example.com");
     request.setPassword("password123");
 
-    assertThatThrownBy(() -> authService.login(request, deviceName))
+    assertThatThrownBy(() -> authService.login(request, deviceId, deviceName))
         .isInstanceOf(SecurityException.class)
         .hasMessageContaining("disabled");
   }
@@ -117,15 +121,15 @@ class AuthServiceTest {
 
     String refreshJwt = jwtService.issueRefreshToken(testUser.getId(), tokenId);
 
-    com.qdauth.model.RefreshToken stored = new com.qdauth.model.RefreshToken();
+    RefreshToken stored = new RefreshToken();
     stored.setUser(testUser);
     stored.setFamilyId(familyId);
     stored.setConsumed(false);
     stored.setRevoked(false);
-    stored.setExpiresAt(LocalDateTime.now().plusDays(7));
+    stored.setExpiresAt(OffsetDateTime.now().plusDays(7).toInstant());
 
     when(refreshTokenRepository.findById(tokenId)).thenReturn(Optional.of(stored));
-    when(refreshTokenRepository.save(any(com.qdauth.model.RefreshToken.class))).thenAnswer(i -> i.getArgument(0));
+    when(refreshTokenRepository.save(any(RefreshToken.class))).thenAnswer(i -> i.getArgument(0));
 
     RefreshTokenRequest request = new RefreshTokenRequest();
     request.setRefreshToken(refreshJwt);
@@ -134,7 +138,7 @@ class AuthServiceTest {
 
     assertThat(response.getAccessToken()).isNotBlank();
     assertThat(response.getRefreshToken()).isNotBlank();
-    verify(refreshTokenRepository).save(argThat(com.qdauth.model.RefreshToken::isConsumed));
+    verify(refreshTokenRepository).save(argThat(RefreshToken::isConsumed));
   }
 
   @Test
@@ -144,12 +148,12 @@ class AuthServiceTest {
 
     String refreshJwt = jwtService.issueRefreshToken(testUser.getId(), tokenId);
 
-    com.qdauth.model.RefreshToken consumed = new com.qdauth.model.RefreshToken();
+    RefreshToken consumed = new RefreshToken();
     consumed.setUser(testUser);
     consumed.setFamilyId(familyId);
     consumed.setConsumed(true);
     consumed.setRevoked(false);
-    consumed.setExpiresAt(LocalDateTime.now().plusDays(7));
+    consumed.setExpiresAt(OffsetDateTime.now().plusDays(7).toInstant());
 
     when(refreshTokenRepository.findById(tokenId)).thenReturn(Optional.of(consumed));
 
@@ -168,12 +172,12 @@ class AuthServiceTest {
     String tokenId = UUID.randomUUID().toString();
     String refreshJwt = jwtService.issueRefreshToken(testUser.getId(), tokenId);
 
-    com.qdauth.model.RefreshToken revoked = new com.qdauth.model.RefreshToken();
+    RefreshToken revoked = new RefreshToken();
     revoked.setUser(testUser);
     revoked.setFamilyId(UUID.randomUUID().toString());
     revoked.setConsumed(false);
     revoked.setRevoked(true);
-    revoked.setExpiresAt(LocalDateTime.now().plusDays(7));
+    revoked.setExpiresAt(OffsetDateTime.now().plusDays(7).toInstant());
 
     when(refreshTokenRepository.findById(tokenId)).thenReturn(Optional.of(revoked));
 

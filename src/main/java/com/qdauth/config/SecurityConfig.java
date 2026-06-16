@@ -1,13 +1,12 @@
 package com.qdauth.config;
 
-import com.qdauth.components.CookieBearerTokenResolver;
-import com.qdauth.security.QdJwtAuthenticationConverter;
+import com.qdauth.api.auth.components.CookieBearerTokenResolver;
+import com.qdauth.api.auth.security.QdJwtAuthenticationConverter;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.catalina.filters.CorsFilter;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import java.time.Duration;
+import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,10 +19,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.time.Duration;
-import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -41,31 +36,31 @@ public class SecurityConfig {
     http.cors(Customizer.withDefaults())
         .csrf(AbstractHttpConfigurer::disable)
         .sessionManagement(
-                session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        )
+            session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(
-            auth -> auth
-                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+            auth ->
+                auth.requestMatchers(HttpMethod.OPTIONS, "/**")
+                    .permitAll()
                     .requestMatchers(
                         "/api/accounts/register",
                         "/api/auth/login",
                         "/api/auth/refresh",
                         "/api/auth/logout",
                         "/api/streams/live/**",
-                        "/actuator/health").permitAll()
-                    .anyRequest().authenticated()
-        )
-        .oauth2ResourceServer(oauth2 -> oauth2
-                .bearerTokenResolver(cookieBearerTokenResolver)
-                .jwt(jwt -> jwt.jwtAuthenticationConverter(new QdJwtAuthenticationConverter())))
-
+                        "/actuator/health")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated())
+        .oauth2ResourceServer(
+            oauth2 ->
+                oauth2
+                    .bearerTokenResolver(cookieBearerTokenResolver)
+                    .jwt(jwt -> jwt.jwtAuthenticationConverter(new QdJwtAuthenticationConverter())))
         .exceptionHandling(
-                ex -> ex
-                        .authenticationEntryPoint(
-                                (request, response, authException) -> response
-                                        .sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized"))
-        );
+            ex ->
+                ex.authenticationEntryPoint(
+                    (request, response, authException) ->
+                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized")));
 
     return http.build();
   }
@@ -84,8 +79,10 @@ public class SecurityConfig {
     config.setAllowedHeaders(List.of("*"));
     config.setAllowCredentials(true);
     config.setMaxAge(Duration.ofMinutes(5L));
-    return new UrlBasedCorsConfigurationSource() {{
-      registerCorsConfiguration("/**", config);
-    }};
+    return new UrlBasedCorsConfigurationSource() {
+      {
+        registerCorsConfiguration("/**", config);
+      }
+    };
   }
 }
