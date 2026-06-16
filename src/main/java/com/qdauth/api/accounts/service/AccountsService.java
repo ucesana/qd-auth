@@ -40,13 +40,13 @@ public class AccountsService {
 
   @Transactional
   public AccountResponse register(RegistrationRequest registration) {
-    if (userRepository.existsByEmail(registration.getEmail())) {
+    if (userRepository.existsByEmail(registration.email())) {
       throw new IllegalArgumentException("Email already registered.");
     }
 
     final User user = new User();
-    user.setEmail(registration.getEmail());
-    user.setPassword(passwordEncoder.encode(registration.getPassword()));
+    user.setEmail(registration.email());
+    user.setPassword(passwordEncoder.encode(registration.password()));
 
     userRepository.save(user);
 
@@ -95,14 +95,13 @@ public class AccountsService {
   }
 
   private SessionResponse toDto(Session session) {
-    SessionResponse sessionResponse = new SessionResponse();
-    sessionResponse.setFamilyId(session.getFamilyId());
-    sessionResponse.setUser(toDto(session.getUser()));
-    sessionResponse.setDeviceId(session.getDeviceId());
-    sessionResponse.setDeviceName(session.getDeviceName());
-    sessionResponse.setCreatedAt(session.getCreatedAt());
-    sessionResponse.setLastUsedAt(session.getLastUsedAt());
-    return sessionResponse;
+    return new SessionResponse(
+        session.getFamilyId(),
+        toDto(session.getUser()),
+        session.getDeviceId(),
+        session.getDeviceName(),
+        session.getCreatedAt(),
+        session.getLastUsedAt());
   }
 
   private UserResponse toDto(User user) {

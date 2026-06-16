@@ -19,7 +19,7 @@ public class AuthHandshakeInterceptor implements HandshakeInterceptor {
       WebSocketHandler wsHandler,
       Map<String, Object> attributes) {
 
-    if (request instanceof ServletServerHttpRequest servletRequest) {
+    if (request instanceof ServletServerHttpRequest) {
       Authentication auth = SecurityContextHolder.getContext().getAuthentication();
       if (auth == null || !auth.isAuthenticated()) {
         response.setStatusCode(HttpStatus.UNAUTHORIZED);

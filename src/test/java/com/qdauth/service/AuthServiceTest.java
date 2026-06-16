@@ -62,25 +62,21 @@ class AuthServiceTest {
     when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.of(testUser));
     when(refreshTokenRepository.save(any(RefreshToken.class))).thenAnswer(i -> i.getArgument(0));
 
-    LoginRequest request = new LoginRequest();
-    request.setEmail("test@example.com");
-    request.setPassword("password123");
+    LoginRequest request = new LoginRequest("test@example.com", "password123");
 
     TokensResponse response = authService.login(request, deviceId, deviceName);
 
-    assertThat(response.getAccessToken()).isNotBlank();
-    assertThat(response.getRefreshToken()).isNotBlank();
-    assertThat(response.getTokenType()).isEqualTo("Bearer");
-    assertThat(response.getExpiresIn()).isEqualTo(900);
+    assertThat(response.accessToken()).isNotBlank();
+    assertThat(response.refreshToken()).isNotBlank();
+    assertThat(response.tokenType()).isEqualTo("Bearer");
+    assertThat(response.expiresIn()).isEqualTo(900);
   }
 
   @Test
   void login_throwsOnUnknownEmail() {
     when(userRepository.findByEmail(any())).thenReturn(Optional.empty());
 
-    LoginRequest request = new LoginRequest();
-    request.setEmail("ghost@example.com");
-    request.setPassword("password123");
+    LoginRequest request = new LoginRequest("ghost@example.com", "password123");
 
     assertThatThrownBy(() -> authService.login(request, deviceId, deviceName))
         .isInstanceOf(SecurityException.class)
@@ -91,9 +87,7 @@ class AuthServiceTest {
   void login_throwsOnWrongPassword() {
     when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.of(testUser));
 
-    LoginRequest request = new LoginRequest();
-    request.setEmail("test@example.com");
-    request.setPassword("wrong-password");
+    LoginRequest request = new LoginRequest("test@example.com", "wrong-password");
 
     assertThatThrownBy(() -> authService.login(request, deviceId, deviceName))
         .isInstanceOf(SecurityException.class)
@@ -105,9 +99,7 @@ class AuthServiceTest {
     testUser.setEnabled(false);
     when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.of(testUser));
 
-    LoginRequest request = new LoginRequest();
-    request.setEmail("test@example.com");
-    request.setPassword("password123");
+    LoginRequest request = new LoginRequest("test@example.com", "password123");
 
     assertThatThrownBy(() -> authService.login(request, deviceId, deviceName))
         .isInstanceOf(SecurityException.class)
@@ -131,13 +123,12 @@ class AuthServiceTest {
     when(refreshTokenRepository.findById(tokenId)).thenReturn(Optional.of(stored));
     when(refreshTokenRepository.save(any(RefreshToken.class))).thenAnswer(i -> i.getArgument(0));
 
-    RefreshTokenRequest request = new RefreshTokenRequest();
-    request.setRefreshToken(refreshJwt);
+    RefreshTokenRequest request = new RefreshTokenRequest(refreshJwt);
 
     TokensResponse response = authService.refresh(request);
 
-    assertThat(response.getAccessToken()).isNotBlank();
-    assertThat(response.getRefreshToken()).isNotBlank();
+    assertThat(response.accessToken()).isNotBlank();
+    assertThat(response.refreshToken()).isNotBlank();
     verify(refreshTokenRepository).save(argThat(RefreshToken::isConsumed));
   }
 
@@ -157,8 +148,7 @@ class AuthServiceTest {
 
     when(refreshTokenRepository.findById(tokenId)).thenReturn(Optional.of(consumed));
 
-    RefreshTokenRequest request = new RefreshTokenRequest();
-    request.setRefreshToken(refreshJwt);
+    RefreshTokenRequest request = new RefreshTokenRequest(refreshJwt);
 
     assertThatThrownBy(() -> authService.refresh(request))
         .isInstanceOf(SecurityException.class)
@@ -181,8 +171,7 @@ class AuthServiceTest {
 
     when(refreshTokenRepository.findById(tokenId)).thenReturn(Optional.of(revoked));
 
-    RefreshTokenRequest request = new RefreshTokenRequest();
-    request.setRefreshToken(refreshJwt);
+    RefreshTokenRequest request = new RefreshTokenRequest(refreshJwt);
 
     assertThatThrownBy(() -> authService.refresh(request))
         .isInstanceOf(SecurityException.class)

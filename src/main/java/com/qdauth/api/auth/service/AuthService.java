@@ -51,14 +51,14 @@ public class AuthService {
       throws Exception {
     final User user =
         userRepository
-            .findByEmail(request.getEmail())
+            .findByEmail(request.email())
             .orElseThrow(() -> new SecurityException("Invalid credentials."));
 
     if (!user.isEnabled()) {
       throw new SecurityException("Account is disabled.");
     }
 
-    if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+    if (!passwordEncoder.matches(request.password(), user.getPassword())) {
       throw new SecurityException("Invalid credentials.");
     }
 
@@ -86,7 +86,7 @@ public class AuthService {
 
   @Transactional
   public TokensResponse refresh(RefreshTokenRequest request) throws Exception {
-    final JWTClaimsSet claims = jwtService.verify(request.getRefreshToken());
+    final JWTClaimsSet claims = jwtService.verify(request.refreshToken());
 
     final String type = (String) claims.getClaim("type");
     if (!"refresh".equals(type)) {
@@ -159,7 +159,7 @@ public class AuthService {
   public void logout(@Valid RefreshTokenRequest request) {
     final JWTClaimsSet claims;
     try {
-      claims = jwtService.verify(request.getRefreshToken());
+      claims = jwtService.verify(request.refreshToken());
     } catch (Exception e) {
       // The system treats logout as a no-op. The controller clears the client cookie regardless,
       // so no security gap occurs.

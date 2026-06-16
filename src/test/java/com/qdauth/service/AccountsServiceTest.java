@@ -4,13 +4,13 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
+import com.qdauth.api.accounts.dto.AccountResponse;
+import com.qdauth.api.accounts.dto.RegistrationRequest;
+import com.qdauth.api.accounts.service.AccountsService;
 import com.qdauth.api.auth.model.User;
 import com.qdauth.api.auth.repository.RefreshTokenRepository;
 import com.qdauth.api.auth.repository.SessionRepository;
 import com.qdauth.api.auth.repository.UserRepository;
-import com.qdauth.api.accounts.dto.AccountResponse;
-import com.qdauth.api.accounts.dto.RegistrationRequest;
-import com.qdauth.api.accounts.service.AccountsService;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,14 +43,12 @@ class AccountsServiceTest {
     when(userRepository.existsByEmail("new@example.com")).thenReturn(false);
     when(userRepository.save(any(User.class))).thenAnswer(i -> i.getArgument(0));
 
-    RegistrationRequest request = new RegistrationRequest();
-    request.setEmail("new@example.com");
-    request.setPassword("password123");
+    RegistrationRequest request = new RegistrationRequest("new@example.com", "password123");
 
     AccountResponse response = accountsService.register(request);
 
-    assertThat(response.getEmail()).isEqualTo("new@example.com");
-    assertThat(response.isEnabled()).isTrue();
+    assertThat(response.email()).isEqualTo("new@example.com");
+    assertThat(response.enabled()).isTrue();
     verify(userRepository).save(any(User.class));
   }
 
@@ -58,9 +56,7 @@ class AccountsServiceTest {
   void register_throwsOnDuplicateEmail() {
     when(userRepository.existsByEmail("existing@example.com")).thenReturn(true);
 
-    RegistrationRequest request = new RegistrationRequest();
-    request.setEmail("existing@example.com");
-    request.setPassword("password123");
+    RegistrationRequest request = new RegistrationRequest("existing@example.com", "password123");
 
     assertThatThrownBy(() -> accountsService.register(request))
         .isInstanceOf(IllegalArgumentException.class)
@@ -72,9 +68,7 @@ class AccountsServiceTest {
     when(userRepository.existsByEmail(any())).thenReturn(false);
     when(userRepository.save(any(User.class))).thenAnswer(i -> i.getArgument(0));
 
-    RegistrationRequest request = new RegistrationRequest();
-    request.setEmail("new@example.com");
-    request.setPassword("plaintext");
+    RegistrationRequest request = new RegistrationRequest("new@example.com", "plaintext");
 
     accountsService.register(request);
 
@@ -92,8 +86,8 @@ class AccountsServiceTest {
 
     AccountResponse response = accountsService.getAccount("some-uuid");
 
-    assertThat(response.getEmail()).isEqualTo("test@example.com");
-    assertThat(response.isEnabled()).isTrue();
+    assertThat(response.email()).isEqualTo("test@example.com");
+    assertThat(response.enabled()).isTrue();
   }
 
   @Test

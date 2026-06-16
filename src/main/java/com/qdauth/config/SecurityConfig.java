@@ -25,7 +25,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig {
   public static final String CLIENT_HOST = "http://localhost:5173";
 
-  private CookieBearerTokenResolver cookieBearerTokenResolver;
+  private final CookieBearerTokenResolver cookieBearerTokenResolver;
 
   public SecurityConfig(CookieBearerTokenResolver cookieBearerTokenResolver) {
     this.cookieBearerTokenResolver = cookieBearerTokenResolver;
@@ -74,7 +74,7 @@ public class SecurityConfig {
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration config = new CorsConfiguration();
 
-    config.setAllowedOriginPatterns(List.of("http://localhost:5173"));
+    config.setAllowedOriginPatterns(List.of(CLIENT_HOST));
     config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
     config.setAllowedHeaders(List.of("*"));
     config.setAllowCredentials(true);

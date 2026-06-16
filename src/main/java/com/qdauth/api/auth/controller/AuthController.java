@@ -64,7 +64,7 @@ public class AuthController {
 
   private RefreshTokenRequest resolveRefreshRequest(
       RefreshTokenRequest body, HttpServletRequest request) {
-    if (body != null && !StringUtils.isBlank(body.getRefreshToken())) {
+    if (body != null && !StringUtils.isBlank(body.refreshToken())) {
       return body;
     }
     return new RefreshTokenRequest(CookieTokenExtractor.extractRefreshToken(request));
@@ -76,7 +76,7 @@ public class AuthController {
   }
 
   private ResponseCookie accessTokenCookie(TokensResponse tokens) {
-    return ResponseCookie.from(ACCESS_TOKEN, tokens.getAccessToken())
+    return ResponseCookie.from(ACCESS_TOKEN, tokens.accessToken())
         .httpOnly(true)
         .secure(true)
         .path("/")
@@ -86,7 +86,7 @@ public class AuthController {
   }
 
   private ResponseCookie refreshTokenCookie(TokensResponse tokens) {
-    return ResponseCookie.from(REFRESH_TOKEN, tokens.getRefreshToken())
+    return ResponseCookie.from(REFRESH_TOKEN, tokens.refreshToken())
         .httpOnly(true)
         .secure(true)
         .path("/api/auth")

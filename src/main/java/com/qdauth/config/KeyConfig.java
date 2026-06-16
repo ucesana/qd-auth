@@ -1,4 +1,3 @@
-// src/main/java/com/qdauth/config/KeyConfig.java
 package com.qdauth.config;
 
 import java.security.KeyFactory;

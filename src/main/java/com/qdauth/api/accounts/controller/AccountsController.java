@@ -33,8 +33,8 @@ public class AccountsController {
       method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.CREATED)
-  public AccountResponse register(@Valid @RequestBody RegistrationRequest reqistration) {
-    return accountsService.register(reqistration);
+  public AccountResponse register(@Valid @RequestBody RegistrationRequest registrationRequest) {
+    return accountsService.register(registrationRequest);
   }
 
   @GetMapping("/me")
