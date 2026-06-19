@@ -21,7 +21,8 @@ public class WebSocketConfig implements WebSocketConfigurer {
   public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
     registry
         .addHandler(new IngestHandler(streamState), "/api/streams/live/ingest")
-        .setAllowedOrigins("*");
+        .setAllowedOrigins("*")
+        .addInterceptors(new AuthHandshakeInterceptor());
     registry
         .addHandler(new ConsumeHandler(streamState), "/api/streams/live/consume")
         .setAllowedOrigins("*")

@@ -61,6 +61,24 @@ public class AccountsService {
     return new AccountResponse(user.getId(), user.getEmail(), user.isEnabled());
   }
 
+  public SessionResponse getCurrentSession(String userId, String familyId) {
+    Session session =
+        sessionRepository
+            .findById(familyId)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+    if (!session.getUser().getId().equals(userId)) {
+      throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+    }
+
+    return toDto(session);
+  }
+
+  public List<SessionResponse> getSessions(String userId) {
+    List<Session> sessions = this.sessionRepository.findByUserId(userId);
+    return Optional.ofNullable(sessions).orElse(List.of()).stream().map(this::toDto).toList();
+  }
+
   @Transactional
   public void revokeSession(String userId, String familyId) {
     Session session =
@@ -76,25 +94,10 @@ public class AccountsService {
     sessionRepository.deleteByFamilyId(familyId);
   }
 
-  public List<SessionResponse> getSessions(String userId) {
-    List<Session> sessions = this.sessionRepository.findByUserId(userId);
-    return Optional.ofNullable(sessions).orElse(List.of()).stream().map(this::toDto).toList();
-  }
-
-  public SessionResponse getCurrentSession(String userId, String familyId) {
-    Session session =
-        sessionRepository
-            .findById(familyId)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-
-    if (!session.getUser().getId().equals(userId)) {
-      throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-    }
-
-    return toDto(session);
-  }
-
   private SessionResponse toDto(Session session) {
+    if (session == null) {
+      return null;
+    }
     return new SessionResponse(
         session.getFamilyId(),
         toDto(session.getUser()),
@@ -105,9 +108,13 @@ public class AccountsService {
   }
 
   private UserResponse toDto(User user) {
+    if (user == null) {
+      return null;
+    }
     return new UserResponse(
         user.getId(),
         user.getEmail(),
+        user.isEnabled(),
         user.getCreatedAt(),
         user.getUpdatedAt(),
         Optional.ofNullable(user.getRoles()).orElse(Set.of()).stream().map(Role::getName).toList());

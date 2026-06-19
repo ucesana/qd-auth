@@ -2,9 +2,8 @@ package com.qdauth.config;
 
 import com.qdauth.api.auth.components.CookieBearerTokenResolver;
 import com.qdauth.api.auth.security.QdJwtAuthenticationConverter;
+import com.qdauth.properties.CorsProperties;
 import jakarta.servlet.http.HttpServletResponse;
-import java.time.Duration;
-import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -23,11 +22,13 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-  public static final String CLIENT_HOST = "http://localhost:5173";
 
+  private final CorsProperties corsProperties;
   private final CookieBearerTokenResolver cookieBearerTokenResolver;
 
-  public SecurityConfig(CookieBearerTokenResolver cookieBearerTokenResolver) {
+  public SecurityConfig(
+      CorsProperties corsProperties, CookieBearerTokenResolver cookieBearerTokenResolver) {
+    this.corsProperties = corsProperties;
     this.cookieBearerTokenResolver = cookieBearerTokenResolver;
   }
 
@@ -73,12 +74,11 @@ public class SecurityConfig {
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration config = new CorsConfiguration();
-
-    config.setAllowedOriginPatterns(List.of(CLIENT_HOST));
-    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-    config.setAllowedHeaders(List.of("*"));
-    config.setAllowCredentials(true);
-    config.setMaxAge(Duration.ofMinutes(5L));
+    config.setAllowedOriginPatterns(corsProperties.allowedOrigins());
+    config.setAllowedMethods(corsProperties.allowedMethods());
+    config.setAllowedHeaders(corsProperties.allowedHeaders());
+    config.setAllowCredentials(corsProperties.allowCredentials());
+    config.setMaxAge(corsProperties.maxAge());
     return new UrlBasedCorsConfigurationSource() {
       {
         registerCorsConfiguration("/**", config);

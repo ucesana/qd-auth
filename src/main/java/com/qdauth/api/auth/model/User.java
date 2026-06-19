@@ -4,13 +4,13 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "users")
 public class User {
 
   @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
   @Column(columnDefinition = "char(36)", length = 36, updatable = false, nullable = false)
   private String id;
 
@@ -37,7 +37,6 @@ public class User {
 
   @PrePersist
   protected void onCreate() {
-    if (id == null) id = UUID.randomUUID().toString();
     createdAt = LocalDateTime.now();
     updatedAt = LocalDateTime.now();
   }

@@ -1,7 +1,10 @@
 package com.qdauth.api.auth.controller;
 
+import static com.qdauth.api.auth.security.CustomHeader.X_DEVICE_ID;
 import static com.qdauth.api.auth.service.JwtService.*;
 import static com.qdauth.api.auth.service.JwtService.REFRESH_TOKEN_EXPIRY_DAYS;
+import static org.springframework.http.HttpHeaders.SET_COOKIE;
+import static org.springframework.http.HttpHeaders.USER_AGENT;
 
 import com.qdauth.api.auth.dto.LoginRequest;
 import com.qdauth.api.auth.dto.RefreshTokenRequest;
@@ -13,7 +16,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import java.time.Duration;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,8 +32,8 @@ public class AuthController {
 
   @PostMapping("/login")
   public TokensResponse login(
-      @RequestHeader(value = "X-Device-Id", defaultValue = "Unknown") String deviceId,
-      @RequestHeader(value = "User-Agent", defaultValue = "Unknown") String deviceName,
+      @RequestHeader(value = X_DEVICE_ID, defaultValue = "Unknown") String deviceId,
+      @RequestHeader(value = USER_AGENT, defaultValue = "Unknown") String deviceName,
       @Valid @RequestBody LoginRequest request,
       HttpServletResponse response)
       throws Exception {
@@ -71,8 +73,8 @@ public class AuthController {
   }
 
   private void setTokenCookies(HttpServletResponse response, TokensResponse tokens) {
-    response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie(tokens).toString());
-    response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie(tokens).toString());
+    response.addHeader(SET_COOKIE, accessTokenCookie(tokens).toString());
+    response.addHeader(SET_COOKIE, refreshTokenCookie(tokens).toString());
   }
 
   private ResponseCookie accessTokenCookie(TokensResponse tokens) {
@@ -96,8 +98,8 @@ public class AuthController {
   }
 
   private void clearTokenCookies(HttpServletResponse response) {
-    response.addHeader(HttpHeaders.SET_COOKIE, expiredAccessTokenCookie().toString());
-    response.addHeader(HttpHeaders.SET_COOKIE, expiredRefreshTokenCookie().toString());
+    response.addHeader(SET_COOKIE, expiredAccessTokenCookie().toString());
+    response.addHeader(SET_COOKIE, expiredRefreshTokenCookie().toString());
   }
 
   private ResponseCookie expiredAccessTokenCookie() {

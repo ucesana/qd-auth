@@ -1,12 +1,14 @@
 package com.qdauth.config;
 
+import com.qdauth.properties.JwtProperties;
+import io.micrometer.common.util.StringUtils;
+import jakarta.el.PropertyNotFoundException;
 import java.security.KeyFactory;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -16,31 +18,55 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 @Configuration
 public class KeyConfig {
 
-  @Value("${RSA_PRIVATE_KEY:}")
-  private String privateKeyEnv;
+  private final JwtProperties jwtProperties;
 
-  @Value("${RSA_PUBLIC_KEY:}")
-  private String publicKeyEnv;
+  public KeyConfig(JwtProperties jwtProperties) {
+    this.jwtProperties = jwtProperties;
+  }
 
+  /**
+   * Get the RSA private key used to sign JWT tokens. **Warning**: never commit keys to version
+   * control!
+   *
+   * @return the RSA private key from Spring properties if it exists, otherwise attempts to return the key
+   *     located in the `keys/` directory.
+   * @throws Exception if decoding the key fails, an error occurs while reading the key, or the key does not exist.
+   */
   @Bean
   public RSAPrivateKey rsaPrivateKey() throws Exception {
-    if (!privateKeyEnv.isBlank()) {
-      final byte[] decoded = Base64.getDecoder().decode(privateKeyEnv.replaceAll("\\s", ""));
+    final String privateKeyProperty = this.jwtProperties.rsaPrivateKey();
+    if (!StringUtils.isBlank(privateKeyProperty)) {
+      final byte[] decoded = Base64.getDecoder().decode(privateKeyProperty.replaceAll("\\s", ""));
       final String pem = new String(decoded);
       return parsePrivateKey(pem);
     }
     final String pem = readClasspath("keys/private.pem");
+    if (StringUtils.isBlank(pem)) {
+      throw new PropertyNotFoundException("Spring property JWT_RSA_PRIVATE_KEY not found.");
+    }
     return parsePrivateKey(pem);
   }
 
+  /**
+   * Get the RSA public key used to verify JWT tokens. **Warning**: never commit keys to version
+   * control!
+   *
+   * @return the RSA public key from Spring property file if it exists, otherwise attempts to return the key
+   *     located in the `keys/` directory.
+   * @throws Exception if decoding the key fails, an error occurs while reading the key, or the key does not exist.
+   */
   @Bean
   public RSAPublicKey rsaPublicKey() throws Exception {
-    if (!publicKeyEnv.isBlank()) {
-      final byte[] decoded = Base64.getDecoder().decode(publicKeyEnv.replaceAll("\\s", ""));
+    final String publicKeyProperty = this.jwtProperties.rsaPublicKey();
+    if (!StringUtils.isBlank(publicKeyProperty)) {
+      final byte[] decoded = Base64.getDecoder().decode(publicKeyProperty.replaceAll("\\s", ""));
       final String pem = new String(decoded);
       return parsePublicKey(pem);
     }
     final String pem = readClasspath("keys/public.pem");
+    if (StringUtils.isBlank(pem)) {
+      throw new PropertyNotFoundException("Spring property JWT_RSA_PUBLIC_KEY not found.");
+    }
     return parsePublicKey(pem);
   }
 

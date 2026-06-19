@@ -1,7 +1,6 @@
 package com.qdauth.api.accounts.controller;
 
 import com.qdauth.api.accounts.dto.AccountResponse;
-import com.qdauth.api.accounts.dto.PulseResponse;
 import com.qdauth.api.accounts.dto.RegistrationRequest;
 import com.qdauth.api.accounts.dto.SessionResponse;
 import com.qdauth.api.accounts.service.AccountsService;
@@ -57,11 +56,5 @@ public class AccountsController {
       @AuthenticationPrincipal QdPrincipal principal, @PathVariable String familyId) {
     accountsService.revokeSession(principal.userId(), familyId);
     return ResponseEntity.noContent().build();
-  }
-
-  @GetMapping("/health")
-  public PulseResponse checkHealth() {
-    log.info("### /api/accounts/health ###");
-    return new PulseResponse();
   }
 }

@@ -6,6 +6,7 @@ import java.util.List;
 public record UserResponse(
     String userId,
     String email,
+    Boolean enabled,
     LocalDateTime createdAt,
     LocalDateTime updatedAt,
     List<String> roles) {}
