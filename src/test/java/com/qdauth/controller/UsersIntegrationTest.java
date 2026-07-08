@@ -11,15 +11,15 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.shaded.com.google.common.net.HttpHeaders;
 
-class AccountIntegrationTest extends BaseIntegrationTest {
+class UsersIntegrationTest extends BaseIntegrationTest {
 
   @Autowired private MockMvc mockMvc;
 
   @Test
-  void register_returns201WithAccountResponse() throws Exception {
+  void create_returns201WithAccountResponse() throws Exception {
     mockMvc
         .perform(
-            post("/api/accounts/register")
+            post("/api/users/create")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """
@@ -32,29 +32,27 @@ class AccountIntegrationTest extends BaseIntegrationTest {
   }
 
   @Test
-  void register_returns409OnDuplicateEmail() throws Exception {
+  void create_returns409OnDuplicateEmail() throws Exception {
     String body =
         """
         {"email":"duplicate@example.com","password":"password123"}
         """;
 
     mockMvc
-        .perform(
-            post("/api/accounts/register").contentType(MediaType.APPLICATION_JSON).content(body))
+        .perform(post("/api/users/create").contentType(MediaType.APPLICATION_JSON).content(body))
         .andExpect(status().isCreated());
 
     mockMvc
-        .perform(
-            post("/api/accounts/register").contentType(MediaType.APPLICATION_JSON).content(body))
+        .perform(post("/api/users/create").contentType(MediaType.APPLICATION_JSON).content(body))
         .andExpect(status().isConflict())
         .andExpect(jsonPath("$.message").value("Email already registered."));
   }
 
   @Test
-  void register_returns400OnInvalidEmail() throws Exception {
+  void create_returns400OnInvalidEmail() throws Exception {
     mockMvc
         .perform(
-            post("/api/accounts/register")
+            post("/api/users/create")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """
@@ -65,10 +63,10 @@ class AccountIntegrationTest extends BaseIntegrationTest {
   }
 
   @Test
-  void register_returns400OnShortPassword() throws Exception {
+  void create_returns400OnShortPassword() throws Exception {
     mockMvc
         .perform(
-            post("/api/accounts/register")
+            post("/api/users/create")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """
@@ -83,7 +81,7 @@ class AccountIntegrationTest extends BaseIntegrationTest {
     // Register
     mockMvc
         .perform(
-            post("/api/accounts/register")
+            post("/api/users/create")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """
@@ -122,22 +120,21 @@ class AccountIntegrationTest extends BaseIntegrationTest {
     // Access protected endpoint — send the cookie as the browser would
     mockMvc
         .perform(
-            get("/api/accounts/me")
-                .cookie(new jakarta.servlet.http.Cookie(cookieName, cookieValue)))
+            get("/api/users/me").cookie(new jakarta.servlet.http.Cookie(cookieName, cookieValue)))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.email").value("me@example.com"));
   }
 
   @Test
   void getMe_returns401WithoutToken() throws Exception {
-    mockMvc.perform(get("/api/accounts/me")).andExpect(status().isUnauthorized());
+    mockMvc.perform(get("/api/users/me")).andExpect(status().isUnauthorized());
   }
 
   @Test
   void preflight_returnsCorsHeaders() throws Exception {
     mockMvc
         .perform(
-            options("/api/accounts/register")
+            options("/api/users/create")
                 .header("Origin", "http://localhost:5173")
                 .header("Access-Control-Request-Method", "POST")
                 .header("Access-Control-Request-Headers", "content-type"))

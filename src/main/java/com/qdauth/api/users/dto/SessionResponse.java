@@ -1,4 +1,4 @@
-package com.qdauth.api.accounts.dto;
+package com.qdauth.api.users.dto;
 
 import java.time.Instant;
 

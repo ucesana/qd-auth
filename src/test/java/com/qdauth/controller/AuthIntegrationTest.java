@@ -22,7 +22,7 @@ class AuthIntegrationTest extends BaseIntegrationTest {
   void registerTestUser() throws Exception {
     mockMvc
         .perform(
-            post("/api/accounts/register")
+            post("/api/users/create")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """

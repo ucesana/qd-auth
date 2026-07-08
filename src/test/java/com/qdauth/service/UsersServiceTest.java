@@ -4,15 +4,15 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-import com.qdauth.api.accounts.dto.AccountResponse;
-import com.qdauth.api.accounts.dto.RegistrationRequest;
-import com.qdauth.api.accounts.dto.SessionResponse;
-import com.qdauth.api.accounts.service.AccountsService;
 import com.qdauth.api.auth.model.Session;
 import com.qdauth.api.auth.model.User;
 import com.qdauth.api.auth.repository.RefreshTokenRepository;
 import com.qdauth.api.auth.repository.SessionRepository;
 import com.qdauth.api.auth.repository.UserRepository;
+import com.qdauth.api.users.dto.SessionResponse;
+import com.qdauth.api.users.dto.UserCreateRequest;
+import com.qdauth.api.users.dto.UserResponse;
+import com.qdauth.api.users.service.UsersService;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,31 +26,31 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.server.ResponseStatusException;
 
 @ExtendWith(MockitoExtension.class)
-class AccountsServiceTest {
+class UsersServiceTest {
 
   @Mock private UserRepository userRepository;
   @Mock private RefreshTokenRepository refreshTokenRepository;
   @Mock private SessionRepository sessionRepository;
 
   private PasswordEncoder passwordEncoder;
-  private AccountsService accountsService;
+  private UsersService usersService;
 
   @BeforeEach
   void setUp() {
     passwordEncoder = new BCryptPasswordEncoder();
-    accountsService =
-        new AccountsService(
+    usersService =
+        new UsersService(
             userRepository, refreshTokenRepository, sessionRepository, passwordEncoder);
   }
 
   @Test
-  void register_successfullyCreatesAccount() {
+  void create_successfullyCreatesAccount() {
     when(userRepository.existsByEmail("new@example.com")).thenReturn(false);
     when(userRepository.save(any(User.class))).thenAnswer(i -> i.getArgument(0));
 
-    RegistrationRequest request = new RegistrationRequest("new@example.com", "password123");
+    UserCreateRequest request = new UserCreateRequest("new@example.com", "password123");
 
-    AccountResponse response = accountsService.register(request);
+    UserResponse response = usersService.register(request);
 
     assertThat(response.email()).isEqualTo("new@example.com");
     assertThat(response.enabled()).isTrue();
@@ -58,24 +58,24 @@ class AccountsServiceTest {
   }
 
   @Test
-  void register_throwsOnDuplicateEmail() {
+  void create_throwsOnDuplicateEmail() {
     when(userRepository.existsByEmail("existing@example.com")).thenReturn(true);
 
-    RegistrationRequest request = new RegistrationRequest("existing@example.com", "password123");
+    UserCreateRequest request = new UserCreateRequest("existing@example.com", "password123");
 
-    assertThatThrownBy(() -> accountsService.register(request))
+    assertThatThrownBy(() -> usersService.register(request))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("already registered");
   }
 
   @Test
-  void register_storesEncodedPassword() {
+  void create_storesEncodedPassword() {
     when(userRepository.existsByEmail(any())).thenReturn(false);
     when(userRepository.save(any(User.class))).thenAnswer(i -> i.getArgument(0));
 
-    RegistrationRequest request = new RegistrationRequest("new@example.com", "plaintext");
+    UserCreateRequest request = new UserCreateRequest("new@example.com", "plaintext");
 
-    accountsService.register(request);
+    usersService.register(request);
 
     verify(userRepository)
         .save(argThat(user -> passwordEncoder.matches("plaintext", user.getPassword())));
@@ -89,7 +89,7 @@ class AccountsServiceTest {
 
     when(userRepository.findById("some-uuid")).thenReturn(Optional.of(user));
 
-    AccountResponse response = accountsService.getAccount("some-uuid");
+    UserResponse response = usersService.getUser("some-uuid");
 
     assertThat(response.email()).isEqualTo("test@example.com");
     assertThat(response.enabled()).isTrue();
@@ -99,7 +99,7 @@ class AccountsServiceTest {
   void getAccount_throwsWhenUserNotFound() {
     when(userRepository.findById("missing-uuid")).thenReturn(Optional.empty());
 
-    assertThatThrownBy(() -> accountsService.getAccount("missing-uuid"))
+    assertThatThrownBy(() -> usersService.getUser("missing-uuid"))
         .isInstanceOf(IllegalStateException.class)
         .hasMessageContaining("not found");
   }
@@ -120,7 +120,7 @@ class AccountsServiceTest {
 
     when(sessionRepository.findById("familyId")).thenReturn(Optional.of(session));
 
-    final SessionResponse response = accountsService.getCurrentSession(userId, familyId);
+    final SessionResponse response = usersService.getCurrentSession(userId, familyId);
 
     assertThat(response).isNotNull();
     assertThat(response.user()).isNotNull();
@@ -131,7 +131,7 @@ class AccountsServiceTest {
 
   @Test
   void getCurrentSession_throwsNotFound() {
-    assertThatThrownBy(() -> accountsService.getCurrentSession("userId", "familyId"))
+    assertThatThrownBy(() -> usersService.getCurrentSession("userId", "familyId"))
         .isInstanceOf(ResponseStatusException.class)
         .satisfies(
             ex -> {
@@ -154,7 +154,7 @@ class AccountsServiceTest {
 
     when(sessionRepository.findById(familyId)).thenReturn(Optional.of(session));
 
-    assertThatThrownBy(() -> accountsService.getCurrentSession(userId, familyId))
+    assertThatThrownBy(() -> usersService.getCurrentSession(userId, familyId))
         .isInstanceOf(ResponseStatusException.class)
         .satisfies(
             ex -> {
@@ -168,7 +168,7 @@ class AccountsServiceTest {
     when(sessionRepository.findByUserId("userId"))
         .thenReturn(List.of(new Session(), new Session()));
 
-    List<SessionResponse> sessions = accountsService.getSessions("userId");
+    List<SessionResponse> sessions = usersService.getSessions("userId");
 
     assertThat(sessions).hasSize(2);
   }
@@ -187,7 +187,7 @@ class AccountsServiceTest {
 
     when(sessionRepository.findById(familyId)).thenReturn(Optional.of(session));
 
-    accountsService.revokeSession(userId, familyId);
+    usersService.revokeSession(userId, familyId);
 
     verify(refreshTokenRepository).revokeFamily(familyId);
     verify(sessionRepository).deleteByFamilyId(familyId);
@@ -198,7 +198,7 @@ class AccountsServiceTest {
     String userId = "userId";
     String familyId = "familyId";
 
-    assertThatThrownBy(() -> accountsService.revokeSession(userId, familyId))
+    assertThatThrownBy(() -> usersService.revokeSession(userId, familyId))
         .isInstanceOf(ResponseStatusException.class)
         .satisfies(
             ex -> {
@@ -221,7 +221,7 @@ class AccountsServiceTest {
 
     when(sessionRepository.findById(familyId)).thenReturn(Optional.of(session));
 
-    assertThatThrownBy(() -> accountsService.revokeSession(userId, familyId))
+    assertThatThrownBy(() -> usersService.revokeSession(userId, familyId))
         .isInstanceOf(ResponseStatusException.class)
         .satisfies(
             ex -> {

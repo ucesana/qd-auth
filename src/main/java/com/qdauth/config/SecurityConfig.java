@@ -43,7 +43,7 @@ public class SecurityConfig {
                 auth.requestMatchers(HttpMethod.OPTIONS, "/**")
                     .permitAll()
                     .requestMatchers(
-                        "/api/accounts/register",
+                        "/api/users/create",
                         "/api/auth/login",
                         "/api/auth/refresh",
                         "/api/auth/logout",

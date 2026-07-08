@@ -1,15 +1,14 @@
-package com.qdauth.api.accounts.service;
+package com.qdauth.api.users.service;
 
-import com.qdauth.api.accounts.dto.AccountResponse;
-import com.qdauth.api.accounts.dto.RegistrationRequest;
-import com.qdauth.api.accounts.dto.SessionResponse;
-import com.qdauth.api.accounts.dto.UserResponse;
 import com.qdauth.api.auth.model.Role;
 import com.qdauth.api.auth.model.Session;
 import com.qdauth.api.auth.model.User;
 import com.qdauth.api.auth.repository.RefreshTokenRepository;
 import com.qdauth.api.auth.repository.SessionRepository;
 import com.qdauth.api.auth.repository.UserRepository;
+import com.qdauth.api.users.dto.SessionResponse;
+import com.qdauth.api.users.dto.UserCreateRequest;
+import com.qdauth.api.users.dto.UserResponse;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -20,14 +19,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
-public class AccountsService {
+public class UsersService {
 
   private final UserRepository userRepository;
   private final RefreshTokenRepository refreshTokenRepository;
   private final SessionRepository sessionRepository;
   private final PasswordEncoder passwordEncoder;
 
-  public AccountsService(
+  public UsersService(
       UserRepository userRepository,
       RefreshTokenRepository refreshTokenRepository,
       SessionRepository sessionRepository,
@@ -39,7 +38,7 @@ public class AccountsService {
   }
 
   @Transactional
-  public AccountResponse register(RegistrationRequest registration) {
+  public UserResponse register(UserCreateRequest registration) {
     if (userRepository.existsByEmail(registration.email())) {
       throw new IllegalArgumentException("Email already registered.");
     }
@@ -48,17 +47,17 @@ public class AccountsService {
     user.setEmail(registration.email());
     user.setPassword(passwordEncoder.encode(registration.password()));
 
-    userRepository.save(user);
+    final User userSaved = userRepository.save(user);
 
-    return new AccountResponse(user.getId(), user.getEmail(), user.isEnabled());
+    return toDto(userSaved);
   }
 
-  public AccountResponse getAccount(String userId) {
+  public UserResponse getUser(String userId) {
     final User user =
         userRepository
             .findById(userId)
             .orElseThrow(() -> new IllegalStateException("Account not found."));
-    return new AccountResponse(user.getId(), user.getEmail(), user.isEnabled());
+    return toDto(user);
   }
 
   public SessionResponse getCurrentSession(String userId, String familyId) {

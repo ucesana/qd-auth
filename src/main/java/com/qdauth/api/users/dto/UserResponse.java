@@ -1,10 +1,10 @@
-package com.qdauth.api.accounts.dto;
+package com.qdauth.api.users.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public record UserResponse(
-    String userId,
+    String id,
     String email,
     Boolean enabled,
     LocalDateTime createdAt,
