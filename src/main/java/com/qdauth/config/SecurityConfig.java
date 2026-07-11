@@ -43,10 +43,15 @@ public class SecurityConfig {
                 auth.requestMatchers(HttpMethod.OPTIONS, "/**")
                     .permitAll()
                     .requestMatchers(
-                        "/api/users/create",
+                        "/api/users",
                         "/api/auth/login",
                         "/api/auth/refresh",
                         "/api/auth/logout",
+                        "/api/channels",
+                        "/api/channels/*",
+                        "/api/livestreams",
+                        "/api/livestreams/*",
+                        "/api/livestreams/chats",
                         "/api/streams/live/**",
                         "/actuator/health")
                     .permitAll()
