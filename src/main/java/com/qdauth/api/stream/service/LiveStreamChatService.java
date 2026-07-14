@@ -1,10 +1,10 @@
 package com.qdauth.api.stream.service;
 
-import com.qdauth.api.channel.model.Channel;
-import com.qdauth.api.channel.model.ChannelSubscription;
+import com.qdauth.api.channel.entity.Channel;
+import com.qdauth.api.channel.entity.ChannelSubscription;
 import com.qdauth.api.channel.repository.ChannelSubscriptionRepository;
-import com.qdauth.api.stream.model.LiveStream;
-import com.qdauth.api.stream.model.LiveStreamChat;
+import com.qdauth.api.stream.entity.LiveStream;
+import com.qdauth.api.stream.entity.LiveStreamChat;
 import com.qdauth.api.stream.repository.LiveStreamChatRepository;
 import com.qdauth.api.stream.repository.LiveStreamRepository;
 import jakarta.persistence.EntityNotFoundException;

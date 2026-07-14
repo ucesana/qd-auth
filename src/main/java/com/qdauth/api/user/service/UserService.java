@@ -1,8 +1,8 @@
 package com.qdauth.api.user.service;
 
-import com.qdauth.api.auth.model.Role;
-import com.qdauth.api.auth.model.Session;
-import com.qdauth.api.auth.model.User;
+import com.qdauth.api.auth.entity.Role;
+import com.qdauth.api.auth.entity.Session;
+import com.qdauth.api.auth.entity.User;
 import com.qdauth.api.auth.repository.RefreshTokenRepository;
 import com.qdauth.api.auth.repository.SessionRepository;
 import com.qdauth.api.auth.repository.UserRepository;

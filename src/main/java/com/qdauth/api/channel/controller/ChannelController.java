@@ -1,14 +1,13 @@
 package com.qdauth.api.channel.controller;
 
-import com.qdauth.api.account.model.Account;
+import com.qdauth.api.account.entity.Account;
 import com.qdauth.api.account.service.AccountService;
 import com.qdauth.api.auth.security.AccessGuard;
 import com.qdauth.api.auth.security.QdPrincipal;
-import com.qdauth.api.channel.model.Channel;
-import com.qdauth.api.channel.model.ChannelSubscription;
+import com.qdauth.api.channel.entity.Channel;
+import com.qdauth.api.channel.entity.ChannelSubscription;
 import com.qdauth.api.channel.service.ChannelService;
 import com.qdauth.api.channel.service.ChannelSubscriptionService;
-import io.micrometer.common.util.StringUtils;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -62,15 +61,14 @@ public class ChannelController {
   /** List the channels of any account. */
   @GetMapping
   public List<ChannelResponse> listChannels(
-      @RequestParam(required = false) String accountId,
-      @AuthenticationPrincipal QdPrincipal principal) {
-    if (StringUtils.isNotBlank(accountId)) {
-      return channelService.listChannelsForAccount(accountId).stream()
-          .map(ChannelResponse::from)
-          .toList();
-    } else {
-      return channelService.listAll().stream().map(ChannelResponse::from).toList();
-    }
+      @RequestParam(required = false) String name,
+      @RequestParam(required = false) String accountId) {
+    return channelService
+        .listChannelsFilterBy(
+            ChannelFilter.builder().withName(name).withAccountId(accountId).build())
+        .stream()
+        .map(ChannelResponse::from)
+        .toList();
   }
 
   /** Account owner subscribes to any channel. */

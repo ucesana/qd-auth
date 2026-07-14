@@ -1,6 +1,6 @@
 package com.qdauth.api.auth.repository;
 
-import com.qdauth.api.auth.model.RefreshToken;
+import com.qdauth.api.auth.entity.RefreshToken;
 import java.time.Instant;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

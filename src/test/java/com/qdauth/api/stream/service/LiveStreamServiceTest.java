@@ -6,9 +6,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.qdauth.api.channel.model.Channel;
+import com.qdauth.api.channel.entity.Channel;
 import com.qdauth.api.channel.repository.ChannelRepository;
-import com.qdauth.api.stream.model.LiveStream;
+import com.qdauth.api.stream.entity.LiveStream;
 import com.qdauth.api.stream.repository.LiveStreamRepository;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;

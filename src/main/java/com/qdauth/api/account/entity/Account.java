@@ -1,7 +1,7 @@
-package com.qdauth.api.account.model;
+package com.qdauth.api.account.entity;
 
-import com.qdauth.api.auth.model.User;
-import com.qdauth.api.channel.model.Channel;
+import com.qdauth.api.auth.entity.User;
+import com.qdauth.api.channel.entity.Channel;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import java.util.HashSet;

@@ -1,7 +1,7 @@
 package com.qdauth.api.auth.security;
 
-import com.qdauth.api.account.model.Account;
-import com.qdauth.api.channel.model.Channel;
+import com.qdauth.api.account.entity.Account;
+import com.qdauth.api.channel.entity.Channel;
 import java.util.Objects;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;

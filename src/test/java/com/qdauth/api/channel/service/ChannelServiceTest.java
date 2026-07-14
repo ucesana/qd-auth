@@ -7,9 +7,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.qdauth.api.account.model.Account;
+import com.qdauth.api.account.entity.Account;
 import com.qdauth.api.account.repository.AccountRepository;
-import com.qdauth.api.channel.model.Channel;
+import com.qdauth.api.channel.controller.ChannelFilter;
+import com.qdauth.api.channel.entity.Channel;
 import com.qdauth.api.channel.repository.ChannelRepository;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
@@ -17,8 +18,10 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.jpa.domain.Specification;
 
 @ExtendWith(MockitoExtension.class)
 class ChannelServiceTest {
@@ -138,5 +141,22 @@ class ChannelServiceTest {
     assertThat(channels).hasSize(2).containsExactly(channel1, channel2);
 
     verify(channelRepository).findByAccountId(accountId);
+  }
+
+  @Test
+  void listChannelsByFilter_returnsChannels() {
+    Channel channel1 = new Channel();
+    channel1.setName("General");
+
+    ChannelFilter filter = ChannelFilter.builder().withName("Gen").build();
+
+    when(channelRepository.findAll(ArgumentMatchers.<Specification<Channel>>any()))
+        .thenReturn(List.of(channel1));
+
+    List<Channel> channels = channelService.listChannelsFilterBy(filter);
+
+    assertThat(channels).hasSize(1).containsExactly(channel1);
+
+    verify(channelRepository).findAll(ArgumentMatchers.<Specification<Channel>>any());
   }
 }

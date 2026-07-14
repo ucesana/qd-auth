@@ -1,6 +1,6 @@
 package com.qdauth.api.auth.repository;
 
-import com.qdauth.api.auth.model.Session;
+import com.qdauth.api.auth.entity.Session;
 import java.time.Instant;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,6 +1,6 @@
 package com.qdauth.api.account.controller;
 
-import com.qdauth.api.account.model.Account;
+import com.qdauth.api.account.entity.Account;
 import com.qdauth.api.account.service.AccountService;
 import com.qdauth.api.auth.security.AccessGuard;
 import com.qdauth.api.auth.security.QdPrincipal;

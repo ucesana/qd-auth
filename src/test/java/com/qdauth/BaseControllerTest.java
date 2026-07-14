@@ -3,7 +3,7 @@ package com.qdauth;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.qdauth.api.account.model.Account;
+import com.qdauth.api.account.entity.Account;
 import com.qdauth.api.account.repository.AccountRepository;
 import com.qdauth.api.account.service.AccountService;
 import com.qdauth.api.auth.dto.LoginRequest;

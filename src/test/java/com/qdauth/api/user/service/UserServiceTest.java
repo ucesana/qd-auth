@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-import com.qdauth.api.auth.model.Session;
-import com.qdauth.api.auth.model.User;
+import com.qdauth.api.auth.entity.Session;
+import com.qdauth.api.auth.entity.User;
 import com.qdauth.api.auth.repository.RefreshTokenRepository;
 import com.qdauth.api.auth.repository.SessionRepository;
 import com.qdauth.api.auth.repository.UserRepository;

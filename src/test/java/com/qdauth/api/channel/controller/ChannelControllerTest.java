@@ -1,5 +1,6 @@
 package com.qdauth.api.channel.controller;
 
+import static org.hamcrest.Matchers.containsStringIgnoringCase;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -7,7 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.qdauth.BaseControllerTest;
 import com.qdauth.TestUserAccount;
-import com.qdauth.api.channel.model.Channel;
+import com.qdauth.api.channel.entity.Channel;
 import com.qdauth.api.channel.service.ChannelService;
 import com.qdauth.api.channel.service.ChannelSubscriptionService;
 import org.junit.jupiter.api.Test;
@@ -118,6 +119,27 @@ class ChannelControllerTest extends BaseControllerTest {
         .andExpect(jsonPath("$.length()").value(1))
         .andExpect(jsonPath("$[0].id").value(channel.getId()))
         .andExpect(jsonPath("$[0].accountId").value(user1.account().getId()));
+  }
+
+  @Test
+  void listChannelsByFilter_returnsChannelsLikeNameCaseInsensitive() throws Exception {
+    TestUserAccount user1 = createUserAndAccountAndLogin("user1@example.com");
+
+    channelService.createChannel(user1.account().getId(), "General", "General topics");
+    channelService.createChannel(user1.account().getId(), "Random", "Random stuff");
+    channelService.createChannel(user1.account().getId(), "Gencon", "Boardgames convention!");
+    channelService.createChannel(user1.account().getId(), "Oxygen", "Chemistry");
+    channelService.createChannel(
+        user1.account().getId(), "The Next Generation", "The Best Generation");
+
+    mockMvc
+        .perform(get("/api/channels").param("name", "gen").cookie(user1.cookie()))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.length()").value(4))
+        .andExpect(jsonPath("$[0].name").value(containsStringIgnoringCase("gen")))
+        .andExpect(jsonPath("$[1].name").value(containsStringIgnoringCase("gen")))
+        .andExpect(jsonPath("$[2].name").value(containsStringIgnoringCase("gen")))
+        .andExpect(jsonPath("$[3].name").value(containsStringIgnoringCase("gen")));
   }
 
   @Test

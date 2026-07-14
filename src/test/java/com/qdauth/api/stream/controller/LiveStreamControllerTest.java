@@ -7,11 +7,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.qdauth.BaseControllerTest;
 import com.qdauth.TestUserAccount;
-import com.qdauth.api.channel.model.Channel;
-import com.qdauth.api.channel.model.ChannelSubscription;
+import com.qdauth.api.channel.entity.Channel;
+import com.qdauth.api.channel.entity.ChannelSubscription;
 import com.qdauth.api.channel.service.ChannelService;
 import com.qdauth.api.channel.service.ChannelSubscriptionService;
-import com.qdauth.api.stream.model.LiveStream;
+import com.qdauth.api.stream.entity.LiveStream;
 import com.qdauth.api.stream.service.LiveStreamChatService;
 import com.qdauth.api.stream.service.LiveStreamService;
 import org.junit.jupiter.api.Test;

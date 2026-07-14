@@ -1,7 +1,7 @@
-package com.qdauth.api.channel.model;
+package com.qdauth.api.channel.entity;
 
-import com.qdauth.api.account.model.Account;
-import com.qdauth.api.stream.model.LiveStream;
+import com.qdauth.api.account.entity.Account;
+import com.qdauth.api.stream.entity.LiveStream;
 import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;

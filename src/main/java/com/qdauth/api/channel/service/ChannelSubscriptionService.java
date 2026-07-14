@@ -1,9 +1,9 @@
 package com.qdauth.api.channel.service;
 
-import com.qdauth.api.account.model.Account;
+import com.qdauth.api.account.entity.Account;
 import com.qdauth.api.account.repository.AccountRepository;
-import com.qdauth.api.channel.model.Channel;
-import com.qdauth.api.channel.model.ChannelSubscription;
+import com.qdauth.api.channel.entity.Channel;
+import com.qdauth.api.channel.entity.ChannelSubscription;
 import com.qdauth.api.channel.repository.ChannelRepository;
 import com.qdauth.api.channel.repository.ChannelSubscriptionRepository;
 import jakarta.persistence.EntityNotFoundException;

@@ -1,6 +1,6 @@
-package com.qdauth.api.channel.model;
+package com.qdauth.api.channel.entity;
 
-import com.qdauth.api.account.model.Account;
+import com.qdauth.api.account.entity.Account;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 

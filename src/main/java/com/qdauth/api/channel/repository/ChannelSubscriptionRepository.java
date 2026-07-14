@@ -1,6 +1,6 @@
 package com.qdauth.api.channel.repository;
 
-import com.qdauth.api.channel.model.ChannelSubscription;
+import com.qdauth.api.channel.entity.ChannelSubscription;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

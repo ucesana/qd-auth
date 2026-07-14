@@ -1,6 +1,6 @@
-package com.qdauth.api.stream.model;
+package com.qdauth.api.stream.entity;
 
-import com.qdauth.api.channel.model.ChannelSubscription;
+import com.qdauth.api.channel.entity.ChannelSubscription;
 import jakarta.persistence.*;
 
 @Entity

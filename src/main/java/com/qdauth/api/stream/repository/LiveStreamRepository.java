@@ -1,6 +1,6 @@
 package com.qdauth.api.stream.repository;
 
-import com.qdauth.api.stream.model.LiveStream;
+import com.qdauth.api.stream.entity.LiveStream;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

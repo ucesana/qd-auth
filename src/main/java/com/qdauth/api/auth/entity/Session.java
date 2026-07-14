@@ -1,4 +1,4 @@
-package com.qdauth.api.auth.model;
+package com.qdauth.api.auth.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

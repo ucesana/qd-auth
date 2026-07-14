@@ -1,8 +1,9 @@
 package com.qdauth.api.channel.service;
 
-import com.qdauth.api.account.model.Account;
+import com.qdauth.api.account.entity.Account;
 import com.qdauth.api.account.repository.AccountRepository;
-import com.qdauth.api.channel.model.Channel;
+import com.qdauth.api.channel.controller.ChannelFilter;
+import com.qdauth.api.channel.entity.Channel;
 import com.qdauth.api.channel.repository.ChannelRepository;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
@@ -43,7 +44,7 @@ public class ChannelService {
     return channelRepository.findByAccountId(accountId);
   }
 
-  public List<Channel> listAll() {
-    return this.channelRepository.findAll();
+  public List<Channel> listChannelsFilterBy(ChannelFilter filter) {
+    return channelRepository.findAll(ChannelSpecifications.withFilter(filter));
   }
 }

@@ -1,13 +1,13 @@
 package com.qdauth.api.stream.controller;
 
-import com.qdauth.api.account.model.Account;
+import com.qdauth.api.account.entity.Account;
 import com.qdauth.api.account.service.AccountService;
 import com.qdauth.api.auth.security.AccessGuard;
 import com.qdauth.api.auth.security.QdPrincipal;
-import com.qdauth.api.channel.model.Channel;
+import com.qdauth.api.channel.entity.Channel;
 import com.qdauth.api.channel.service.ChannelService;
-import com.qdauth.api.stream.model.LiveStream;
-import com.qdauth.api.stream.model.LiveStreamChat;
+import com.qdauth.api.stream.entity.LiveStream;
+import com.qdauth.api.stream.entity.LiveStreamChat;
 import com.qdauth.api.stream.service.LiveStreamChatService;
 import com.qdauth.api.stream.service.LiveStreamService;
 import java.time.LocalDateTime;

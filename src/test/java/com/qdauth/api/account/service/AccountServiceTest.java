@@ -5,9 +5,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-import com.qdauth.api.account.model.Account;
+import com.qdauth.api.account.entity.Account;
 import com.qdauth.api.account.repository.AccountRepository;
-import com.qdauth.api.auth.model.User;
+import com.qdauth.api.auth.entity.User;
 import com.qdauth.api.auth.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.Optional;
