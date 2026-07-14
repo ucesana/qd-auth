@@ -2,7 +2,7 @@ package com.qdauth.api.auth.service;
 
 import com.qdauth.api.auth.repository.RefreshTokenRepository;
 import com.qdauth.api.auth.repository.SessionRepository;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +23,7 @@ public class TokenCleanupService {
   @Scheduled(cron = "0 0 3 * * *")
   @Transactional
   public void deleteExpiredTokens() {
-    LocalDateTime now = LocalDateTime.now();
+    Instant now = Instant.now();
     refreshTokenRepository.deleteExpired(now);
     sessionRepository.deleteOrphaned(now);
   }

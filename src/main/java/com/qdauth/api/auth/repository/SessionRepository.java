@@ -1,7 +1,7 @@
 package com.qdauth.api.auth.repository;
 
 import com.qdauth.api.auth.model.Session;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -29,5 +29,5 @@ public interface SessionRepository extends JpaRepository<Session, String> {
         AND t.expiresAt > :now
     )
     """)
-  void deleteOrphaned(@Param("now") LocalDateTime now);
+  void deleteOrphaned(@Param("now") Instant now);
 }
