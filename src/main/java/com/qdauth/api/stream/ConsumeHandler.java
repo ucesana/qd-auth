@@ -10,21 +10,40 @@ public class ConsumeHandler extends AbstractWebSocketHandler {
 
   private static final Logger log = LoggerFactory.getLogger(ConsumeHandler.class);
 
-  private final StreamState state;
+  private final StreamRegistry registry;
 
-  public ConsumeHandler(StreamState state) {
-    this.state = state;
+  public ConsumeHandler(StreamRegistry registry) {
+    this.registry = registry;
   }
 
   @Override
   public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-    log.info("Consumer connected: {}", session.getId());
-    state.registerConsumer(session);
+
+    String streamId = getStreamId(session);
+    StreamState stream = registry.get(streamId);
+
+    if (stream == null) {
+      session.close(CloseStatus.NOT_ACCEPTABLE.withReason("Stream does not exist"));
+      return;
+    }
+
+    stream.registerConsumer(session);
+
+    log.info("Consumer connected: stream={}, session={}", streamId, session.getId());
   }
 
   @Override
   public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
-    log.info("Consumer disconnected: {}", session.getId());
-    state.removeConsumer(session);
+
+    String streamId = getStreamId(session);
+    StreamState stream = registry.get(streamId);
+
+    if (stream != null) {
+      stream.removeConsumer(session);
+    }
+  }
+
+  private String getStreamId(WebSocketSession session) {
+    return (String) session.getAttributes().get("streamId");
   }
 }

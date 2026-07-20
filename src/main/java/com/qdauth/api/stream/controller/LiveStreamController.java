@@ -6,12 +6,15 @@ import com.qdauth.api.auth.security.AccessGuard;
 import com.qdauth.api.auth.security.QdPrincipal;
 import com.qdauth.api.channel.entity.Channel;
 import com.qdauth.api.channel.service.ChannelService;
+import com.qdauth.api.stream.StreamRegistry;
 import com.qdauth.api.stream.entity.LiveStream;
 import com.qdauth.api.stream.entity.LiveStreamChat;
 import com.qdauth.api.stream.service.LiveStreamChatService;
 import com.qdauth.api.stream.service.LiveStreamService;
 import java.time.LocalDateTime;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -27,23 +30,28 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/livestreams")
 public class LiveStreamController {
 
+  private static final Logger log = LoggerFactory.getLogger(LiveStreamController.class);
+
   private final LiveStreamService liveStreamService;
   private final LiveStreamChatService liveStreamChatService;
   private final ChannelService channelService;
   private final AccountService accountService;
   private final AccessGuard accessGuard;
+  private final StreamRegistry streamRegistry;
 
   public LiveStreamController(
       LiveStreamService liveStreamService,
       LiveStreamChatService liveStreamChatService,
       ChannelService channelService,
       AccountService accountService,
-      AccessGuard accessGuard) {
+      AccessGuard accessGuard,
+      StreamRegistry streamRegistry) {
     this.liveStreamService = liveStreamService;
     this.liveStreamChatService = liveStreamChatService;
     this.channelService = channelService;
     this.accountService = accountService;
     this.accessGuard = accessGuard;
+    this.streamRegistry = streamRegistry;
   }
 
   /** Channel owner creates a stream. */
@@ -66,10 +74,16 @@ public class LiveStreamController {
 
   /** Any user lists streams of any channel. */
   @GetMapping
-  public List<LiveStreamResponse> listStreams(@RequestParam String channelId) {
+  public List<LiveStreamResponse> listStreamsForChannel(@RequestParam String channelId) {
     return liveStreamService.listStreamsForChannel(channelId).stream()
         .map(LiveStreamResponse::from)
         .toList();
+  }
+
+  /** Any user lists streams of any channel. */
+  @GetMapping("/browse")
+  public List<LiveStreamResponse> browseStreams() {
+    return liveStreamService.browseStreams().stream().map(LiveStreamResponse::from).toList();
   }
 
   /** Channel owner starts a stream. */
@@ -79,6 +93,8 @@ public class LiveStreamController {
     LiveStream stream = liveStreamService.getStream(id);
     accessGuard.requireChannelOwner(principal, stream.getChannel());
     liveStreamService.startStream(id);
+    streamRegistry.getOrCreate(id);
+    log.info("Start stream {}", id);
     return ResponseEntity.noContent().build();
   }
 
@@ -89,6 +105,8 @@ public class LiveStreamController {
     LiveStream stream = liveStreamService.getStream(id);
     accessGuard.requireChannelOwner(principal, stream.getChannel());
     liveStreamService.stopStream(id);
+    streamRegistry.remove(id);
+    log.info("Stopped stream {}", id);
     return ResponseEntity.noContent().build();
   }
 

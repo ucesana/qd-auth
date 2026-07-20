@@ -11,33 +11,35 @@ import org.springframework.web.socket.server.standard.ServletServerContainerFact
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
 
-  private final StreamState streamState;
+  private final StreamRegistry registry;
 
-  public WebSocketConfig(StreamState streamState) {
-    this.streamState = streamState;
+  public WebSocketConfig(StreamRegistry registry) {
+    this.registry = registry;
   }
 
   @Override
   public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+
     registry
-        .addHandler(new IngestHandler(streamState), "/api/streams/live/ingest")
+        .addHandler(new IngestHandler(this.registry), "/api/livestreams/{id}/ingest")
         .setAllowedOrigins("*")
-        .addInterceptors(new AuthHandshakeInterceptor());
+        .addInterceptors(new AuthHandshakeInterceptor())
+        .addInterceptors(new StreamIdHandshakeInterceptor());
+
     registry
-        .addHandler(new ConsumeHandler(streamState), "/api/streams/live/consume")
+        .addHandler(new ConsumeHandler(this.registry), "/api/livestreams/{id}/consume")
         .setAllowedOrigins("*")
-        .addInterceptors(new AuthHandshakeInterceptor());
+        .addInterceptors(new AuthHandshakeInterceptor())
+        .addInterceptors(new StreamIdHandshakeInterceptor());
   }
 
-  /**
-   * Raise the binary message size limit to accommodate large media chunks. The default (8192 bytes)
-   * is far too small for video keyframes.
-   */
   @Bean
   public ServletServerContainerFactoryBean createWebSocketContainer() {
     ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
-    container.setMaxBinaryMessageBufferSize(10 * 1024 * 1024); // 10 MB
+
+    container.setMaxBinaryMessageBufferSize(10 * 1024 * 1024);
     container.setMaxTextMessageBufferSize(64 * 1024);
+
     return container;
   }
 }

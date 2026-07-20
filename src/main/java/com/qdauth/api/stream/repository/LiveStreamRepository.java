@@ -19,6 +19,8 @@ public interface LiveStreamRepository extends JpaRepository<LiveStream, String> 
    */
   Optional<LiveStream> findByChannelIdAndStoppedAtIsNull(String channelId);
 
+  List<LiveStream> findLiveStreamsByStartedAtIsNotNullAndStoppedAtIsNull();
+
   /**
    * Marks the stream as started by setting started_at to the current timestamp. The WHERE clause
    * restricts the update to streams that have not already been started, making the operation

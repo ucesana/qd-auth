@@ -66,6 +66,10 @@ public class LiveStreamService {
         .orElseThrow(() -> new EntityNotFoundException("Stream not found: " + streamId));
   }
 
+  public List<LiveStream> browseStreams() {
+    return liveStreamRepository.findLiveStreamsByStartedAtIsNotNullAndStoppedAtIsNull();
+  }
+
   public List<LiveStream> listStreamsForChannel(String channelId) {
     return liveStreamRepository.findByChannelId(channelId);
   }

@@ -9,32 +9,20 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.web.socket.BinaryMessage;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
-/**
- * Centralised, thread-safe state shared between the ingest and consume handlers.
- *
- * <p>Thread-safety model: - Consumer registration/removal uses a ConcurrentHashMap-backed Set. -
- * EBML header and chunk buffer mutations are guarded by a ReadWriteLock. Reads (on consumer join)
- * take the read lock; writes (on ingest) take the write lock. - Individual
- * WebSocketSession.sendMessage() calls are synchronised per-session because the JSR-356 spec does
- * not guarantee concurrent send safety.
- */
-@Component
 public class StreamState {
 
   private static final Logger log = LoggerFactory.getLogger(StreamState.class);
 
   static final int BUFFER_SIZE = 5;
 
-  // EBML header marker: 0x1A 0x45 0xDF 0xA3
-  private static final byte[] EBML_MAGIC = {0x1a, 0x45, (byte) 0xdf, (byte) 0xa3};
-
   // Matroska Cluster element ID: 0x1F 0x43 0xB6 0x75
   static final byte[] CLUSTER_ID = {0x1f, 0x43, (byte) 0xb6, 0x75};
+
+  private final String streamId;
 
   private final Set<WebSocketSession> consumers = ConcurrentHashMap.newKeySet();
 
@@ -49,6 +37,16 @@ public class StreamState {
 
   private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
+  private WebSocketSession producer;
+
+  public StreamState(String streamId) {
+    this.streamId = streamId;
+  }
+
+  public String getStreamId() {
+    return streamId;
+  }
+
   public void setMimeType(String mimeType) {
     lock.writeLock().lock();
     try {
@@ -57,10 +55,6 @@ public class StreamState {
       lock.writeLock().unlock();
     }
   }
-
-  // -------------------------------------------------------------------------
-  // State reset
-  // -------------------------------------------------------------------------
 
   public void reset() {
     lock.writeLock().lock();
@@ -75,10 +69,7 @@ public class StreamState {
     }
   }
 
-  // -------------------------------------------------------------------------
   // EBML / cluster detection helpers
-  // -------------------------------------------------------------------------
-
   public static boolean isEBMLHeader(byte[] data) {
     if (data.length < 4) return false;
     return (data[0] & 0xFF) == 0x1a
@@ -114,10 +105,6 @@ public class StreamState {
     System.arraycopy(src, from, result, 0, to - from);
     return result;
   }
-
-  // -------------------------------------------------------------------------
-  // Ingest-side processing
-  // -------------------------------------------------------------------------
 
   /**
    * Process a raw binary chunk arriving from the producer.
@@ -180,10 +167,6 @@ public class StreamState {
     }
   }
 
-  // -------------------------------------------------------------------------
-  // Consumer registration
-  // -------------------------------------------------------------------------
-
   /**
    * Sends the EBML init segment and all buffered clusters to a newly joined consumer, then
    * registers it for live chunks.
@@ -204,8 +187,12 @@ public class StreamState {
       }
       if (header != null) {
         send(session, header);
-        for (byte[] chunk : chunkBuffer) send(session, chunk);
+        for (byte[] chunk : chunkBuffer) {
+          send(session, chunk);
+        }
       }
+
+      consumers.add(session);
     } finally {
       lock.readLock().unlock();
     }
@@ -216,17 +203,21 @@ public class StreamState {
     consumers.remove(session);
   }
 
-  // -------------------------------------------------------------------------
-  // Broadcast
-  // -------------------------------------------------------------------------
+  private void broadcastChunk(byte[] chunk) {
+    for (WebSocketSession consumer : consumers) {
+      if (!consumer.isOpen()) {
+        consumers.remove(consumer);
+        continue;
+      }
 
-  public void broadcastChunk(byte[] chunk) {
-    for (WebSocketSession c : consumers) {
-      if (c.isOpen()) {
+      try {
+        send(consumer, chunk);
+      } catch (IOException e) {
+        consumers.remove(consumer);
+
         try {
-          send(c, chunk);
-        } catch (IOException e) {
-          log.warn("Failed to send chunk to consumer {}: {}", c.getId(), e.getMessage());
+          consumer.close();
+        } catch (IOException ignored) {
         }
       }
     }
@@ -246,9 +237,39 @@ public class StreamState {
     }
   }
 
-  // -------------------------------------------------------------------------
-  // Internal
-  // -------------------------------------------------------------------------
+  public void attachProducer(WebSocketSession session) {
+    lock.writeLock().lock();
+
+    try {
+      if (producer != null && producer.isOpen()) {
+        throw new IllegalStateException("Stream already has a producer");
+      }
+
+      producer = session;
+    } finally {
+      lock.writeLock().unlock();
+    }
+  }
+
+  public void detachProducer(WebSocketSession session) {
+    lock.writeLock().lock();
+
+    try {
+      if (producer == session) {
+        producer = null;
+      }
+    } finally {
+      lock.writeLock().unlock();
+    }
+  }
+
+  public void ingest(byte[] chunk) {
+    byte[] output = processIncomingChunk(chunk);
+
+    if (output != null) {
+      broadcastChunk(output);
+    }
+  }
 
   private void send(WebSocketSession session, byte[] data) throws IOException {
     synchronized (session) {
