@@ -25,6 +25,14 @@ public class LiveStream {
   @JoinColumn(name = "channel_id", nullable = false, columnDefinition = "char(36)")
   private Channel channel;
 
+  @Lob
+  @Basic(fetch = FetchType.LAZY)
+  @Column(name = "thumbnail", columnDefinition = "MEDIUMBLOB")
+  private byte[] thumbnail;
+
+  @Column(name = "thumbnail_content_type", length = 24)
+  private String thumbnailContentType;
+
   @Column(name = "created_at", nullable = false, updatable = false)
   private LocalDateTime createdAt;
 
@@ -68,6 +76,22 @@ public class LiveStream {
 
   public void setChannel(Channel channel) {
     this.channel = channel;
+  }
+
+  public byte[] getThumbnail() {
+    return thumbnail;
+  }
+
+  public void setThumbnail(byte[] thumbnail) {
+    this.thumbnail = thumbnail;
+  }
+
+  public String getThumbnailContentType() {
+    return thumbnailContentType;
+  }
+
+  public void setThumbnailContentType(String thumbnailContentType) {
+    this.thumbnailContentType = thumbnailContentType;
   }
 
   public LocalDateTime getCreatedAt() {

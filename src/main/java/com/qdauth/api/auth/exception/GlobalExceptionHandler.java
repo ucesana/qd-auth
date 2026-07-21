@@ -21,6 +21,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(IllegalArgumentException.class)
   @ResponseStatus(HttpStatus.CONFLICT)
   public ErrorResponse handleConflict(IllegalArgumentException ex) {
+    log.error(ex.getMessage(), ex);
     return new ErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage());
   }
 
@@ -61,6 +62,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(Exception.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public ErrorResponse handleGeneric(Exception ex) {
+    log.error(ex.getMessage(), ex);
     return new ErrorResponse(
         HttpStatus.INTERNAL_SERVER_ERROR.value(), "An unexpected error occurred.");
   }

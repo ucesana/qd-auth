@@ -60,6 +60,27 @@ public class LiveStreamService {
     }
   }
 
+  public void updateThumbnail(String id, byte[] image, String contentType) {
+    if (image == null || image.length == 0) {
+      throw new IllegalArgumentException("Thumbnail cannot be empty");
+    }
+
+    // Optional protection against accidental huge uploads.
+    if (image.length > 5 * 1024 * 1024) {
+      throw new IllegalArgumentException("Thumbnail is too large");
+    }
+
+    LiveStream stream =
+        liveStreamRepository
+            .findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Stream not found: " + id));
+
+    stream.setThumbnail(image);
+    stream.setThumbnailContentType(contentType);
+
+    liveStreamRepository.save(stream);
+  }
+
   public LiveStream getStream(String streamId) {
     return liveStreamRepository
         .findById(streamId)

@@ -11,20 +11,14 @@ import com.qdauth.api.stream.entity.LiveStream;
 import com.qdauth.api.stream.entity.LiveStreamChat;
 import com.qdauth.api.stream.service.LiveStreamChatService;
 import com.qdauth.api.stream.service.LiveStreamService;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/livestreams")
@@ -110,6 +104,43 @@ public class LiveStreamController {
     return ResponseEntity.noContent().build();
   }
 
+  /** Update live stream thumbnail */
+  @PutMapping(
+      value = "/{id}/thumbnail",
+      consumes = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+  public ResponseEntity<Void> updateThumbnail(
+      @PathVariable String id,
+      @RequestBody byte[] image,
+      @RequestHeader(HttpHeaders.CONTENT_TYPE) String contentType,
+      @AuthenticationPrincipal QdPrincipal principal) {
+
+    LiveStream stream = liveStreamService.getStream(id);
+
+    accessGuard.requireChannelOwner(principal, stream.getChannel());
+
+    liveStreamService.updateThumbnail(id, image, contentType);
+
+    return ResponseEntity.noContent().build();
+  }
+
+  /** Get the live stream thumbnail */
+  @GetMapping("/{id}/thumbnail")
+  public ResponseEntity<byte[]> getThumbnail(@PathVariable String id) {
+
+    LiveStream stream = liveStreamService.getStream(id);
+
+    if (stream.getThumbnail() == null) {
+      return ResponseEntity.notFound().build();
+    }
+
+    MediaType contentType = MediaType.parseMediaType(stream.getThumbnailContentType());
+
+    return ResponseEntity.ok()
+        .contentType(contentType)
+        .cacheControl(CacheControl.maxAge(Duration.ofMinutes(30)))
+        .body(stream.getThumbnail());
+  }
+
   /**
    * Any user posts a chat to a stream. If the user's subscription has been banned from the channel
    * then `IllegalStateException` exception is thrown.
@@ -146,6 +177,7 @@ public class LiveStreamController {
       String id,
       String name,
       String description,
+      String thumbnailContentType,
       String channelId,
       LocalDateTime createdAt,
       LocalDateTime startedAt,
@@ -155,6 +187,7 @@ public class LiveStreamController {
           stream.getId(),
           stream.getName(),
           stream.getDescription(),
+          stream.getThumbnailContentType(),
           stream.getChannel().getId(),
           stream.getCreatedAt(),
           stream.getStartedAt(),

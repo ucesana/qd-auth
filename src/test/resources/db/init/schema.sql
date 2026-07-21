@@ -100,13 +100,15 @@ CREATE TABLE IF NOT EXISTS channel_subscriptions
 
 CREATE TABLE IF NOT EXISTS live_streams
 (
-    id          CHAR(36)    NOT NULL,
-    name        VARCHAR(50) NOT NULL,
-    description VARCHAR(2048)        DEFAULT '',
-    channel_id  CHAR(36)    NOT NULL,
-    created_at  TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    started_at  TIMESTAMP            DEFAULT NULL,
-    stopped_at  TIMESTAMP            DEFAULT NULL,
+    id                     CHAR(36)    NOT NULL,
+    name                   VARCHAR(50) NOT NULL,
+    description            VARCHAR(2048)        DEFAULT '',
+    thumbnail              MEDIUMBLOB           DEFAULT NULL,
+    thumbnail_content_type VARCHAR(24)          DEFAULT NULL,
+    channel_id             CHAR(36)    NOT NULL,
+    created_at             TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    started_at             TIMESTAMP            DEFAULT NULL,
+    stopped_at             TIMESTAMP            DEFAULT NULL,
     PRIMARY KEY (id),
     CONSTRAINT fk_live_stream_channel FOREIGN KEY (channel_id) REFERENCES channels (id) ON DELETE CASCADE
 );
